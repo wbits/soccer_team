@@ -1,0 +1,30 @@
+{
+  "name": "wbits/soccer_team",
+  "description": "communication tool for soccer team",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Dick Brouwers",
+      "email": "info@wbits.net"
+    }
+  ],
+  "autoload": {
+    "psr-4": {"Wbits\\SoccerTeam\\": "src/"}
+  },
+  "autoload-dev": {
+    "psr-4": {"spec\\Wbits\\SoccerTeam\\": "spec/"}
+  },
+  "require": {
+    "silex/silex": "^2.0"
+  },
+  "require-dev": {
+    "phpspec/phpspec": "^3.1",
+    "henrikbjorn/phpspec-code-coverage": "^3.0",
+    "friendsofphp/php-cs-fixer": "^1.12"
+  },
+  "scripts": {
+    "test": "vendor/bin/phpspec run",
+    "fix-style": "vendor/bin/php-cs-fixer fix"
+  }
+}
