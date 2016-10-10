@@ -1,12 +1,3 @@
-extensions:
-  PhpSpecCodeCoverage\CodeCoverageExtension:
-    format:
-      - clover
-      - html
-    output:
-      html: build/logs/html
-      clover: build/logs/clover.xml
-
 suites:
   main:
     namespace: Wbits\SoccerTeam
