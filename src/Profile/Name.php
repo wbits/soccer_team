@@ -2,7 +2,9 @@
 
 namespace Wbits\SoccerTeam\Profile;
 
-class Name
+use Broadway\EventSourcing\EventSourcedEntity;
+
+class Name extends EventSourcedEntity
 {
     /**
      * @var string

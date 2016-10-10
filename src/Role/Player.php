@@ -46,6 +46,17 @@ class Player extends EventSourcedAggregateRoot implements RoleInterface
     }
 
     /**
+     * @param PlayerJoinsTheTeamEvent $event
+     */
+    public function applyPlayerJoinsTheTeamEvent(PlayerJoinsTheTeamEvent $event)
+    {
+        $this->playerId = $event->getPlayerId();
+        $name           = new Name($event->getFirstName(), $event->getLastName());
+
+        $this->setName($name);
+    }
+
+    /**
      * @return string
      */
     public function getAggregateRootId(): string
