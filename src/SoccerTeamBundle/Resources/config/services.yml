@@ -1,0 +1,3 @@
+services:
+  soccer_team.controller.member:
+    class: Wbits\SoccerTeam\SoccerTeamBundle\Controller\MemberController

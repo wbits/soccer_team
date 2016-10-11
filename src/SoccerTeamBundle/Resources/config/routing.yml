@@ -1,0 +1,11 @@
+team_members:
+  path: /
+  methods: [GET]
+  defaults:
+    _controller: soccer_team.controller.member:membersAction
+
+join_team:
+  path: /member
+  methods: [POST]
+  defaults:
+    _controller: soccer_team.controller.member:joinTheTeamAction

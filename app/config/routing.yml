@@ -1,0 +1,2 @@
+qprofile:
+    resource: "@SoccerTeamBundle/Resources/config/routing.yml"
