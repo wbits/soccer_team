@@ -1,42 +1,23 @@
 <?php
 
-namespace Wbits\SoccerTeam\Profile;
+namespace Wbits\SoccerTeam\TeamMember\Property;
 
-use Broadway\EventSourcing\EventSourcedEntity;
-
-class Name extends EventSourcedEntity
+final class Name
 {
-    /**
-     * @var string
-     */
     public $firstName;
-
-    /**
-     * @var string
-     */
     public $lastName;
 
-    /**
-     * @param string $firstName
-     * @param string $lastName
-     */
     public function __construct(string $firstName, string $lastName)
     {
         $this->firstName    = $firstName;
         $this->lastName     = $lastName;
     }
 
-    /**
-     * @return string
-     */
     public function getFirstName(): string
     {
         return $this->firstName;
     }
 
-    /**
-     * @return string
-     */
     public function getLastName(): string
     {
         return $this->lastName;

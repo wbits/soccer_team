@@ -1,3 +1,4 @@
 services:
-  soccer_team.controller.member:
-    class: Wbits\SoccerTeam\SoccerTeamBundle\Controller\MemberController
+  soccer_team.controller.team_member:
+    class: Wbits\SoccerTeam\SoccerTeamBundle\Controller\TeamMemberController
+    arguments: ['@broadway.command_handling.command_bus', '@broadway.uuid.generator']

@@ -1,1 +1,10 @@
 services:
+  soccer_team.team_member.command_handler:
+    class: Wbits\SoccerTeam\TeamMember\TeamMemberCommandHandler
+    arguments: ['@soccer_team.team_member.team_member_repository']
+    tags:
+      - { name: command_handler }
+
+  soccer_team.team_member.team_member_repository:
+    class: Wbits\SoccerTeam\TeamMember\TeamMemberRepository
+    arguments: ['@broadway.event_store', '@broadway.event_handling.event_bus']
