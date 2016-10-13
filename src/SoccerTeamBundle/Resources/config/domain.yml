@@ -8,3 +8,17 @@ services:
   soccer_team.team_member.team_member_repository:
     class: Wbits\SoccerTeam\TeamMember\TeamMemberRepository
     arguments: ['@broadway.event_store', '@broadway.event_handling.event_bus']
+
+  soccer_team.read_model.repository.team_member:
+    class: Broadway\ReadModel\ReadModel
+    factory: ['@broadway.read_model.repository_factory', create]
+    arguments: ['soccer_team.read_model.team_members']
+
+
+
+
+
+#    <service id="broadway_demo.read_model.repository.people_that_bought_this_product" factory-method="create" factory-service="broadway.read_model.repository_factory" class="Broadway\ReadModel\ReadModel">
+#                <argument>broadway_demo.people_that_bought_this_product</argument>
+#                <argument>BroadwayDemo\ReadModel\PeopleThatBoughtThisProductAlsoBought</argument>
+#            </service>

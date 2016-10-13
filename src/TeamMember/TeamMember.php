@@ -25,7 +25,7 @@ class TeamMember extends EventSourcedAggregateRoot
         $this->apply(new TeamMemberJoinsTheTeam($memberId, $name));
     }
 
-    public function applyTeamJoinsTheTeamEvent(TeamMemberJoinsTheTeam $event)
+    public function applyTeamMemberJoinsTheTeam(TeamMemberJoinsTheTeam $event)
     {
         $this->memberId = $event->getMemberId();
         $this->name     = $event->getName();

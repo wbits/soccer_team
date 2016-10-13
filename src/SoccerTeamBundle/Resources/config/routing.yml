@@ -1,5 +1,5 @@
-join_team:
-  path: /team_member/join/{firstName}/{lastName}
+memeber_joins_team:
+  path: /team_member/joins_the_team
   methods: [POST]
   defaults:
     _controller: soccer_team.controller.team_member:joinTheTeamAction

@@ -2,9 +2,11 @@
 
 namespace Wbits\SoccerTeam\SoccerTeamBundle\Controller;
 
+use Assert\Assertion as Assert;
 use Broadway\CommandHandling\CommandBusInterface;
 use Broadway\UuidGenerator\UuidGeneratorInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Wbits\SoccerTeam\TeamMember\Command\JoinTheTeam;
 use Wbits\SoccerTeam\TeamMember\Property\Name;
 use Wbits\SoccerTeam\TeamMember\Property\TeamMemberId;
@@ -20,8 +22,15 @@ class TeamMemberController
         $this->uuidGenerator = $uuidGenerator;
     }
 
-    public function joinTheTeamAction($firstName, $lastName): JsonResponse
+    public function joinTheTeamAction(Request $request): JsonResponse
     {
+        $payLoad = $request->getContent();
+
+        Assert::notEmpty($payLoad);
+
+        $params    = json_decode($payLoad, true);
+        $firstName = $params['first_name'];
+        $lastName  = $params['last_name'];
         $memberId  = new TeamMemberId($this->uuidGenerator->generate());
         $command   = new JoinTheTeam($memberId, new Name($firstName, $lastName));
 

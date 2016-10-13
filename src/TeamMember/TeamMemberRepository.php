@@ -11,6 +11,6 @@ class TeamMemberRepository extends EventSourcingRepository
 {
     public function __construct(EventStoreInterface $eventStore, EventBusInterface $eventBus)
     {
-        parent::__construct($eventStore, $eventBus, 'TeamMember', new PublicConstructorAggregateFactory());
+        parent::__construct($eventStore, $eventBus, TeamMember::class, new PublicConstructorAggregateFactory());
     }
 }
