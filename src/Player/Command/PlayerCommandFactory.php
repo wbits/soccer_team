@@ -1,10 +1,9 @@
 <?php
 
-namespace Wbits\SoccerTeam\Player;
+namespace Wbits\SoccerTeam\Player\Command;
 
 use Assert\Assertion as Assert;
 use Broadway\UuidGenerator\UuidGeneratorInterface;
-use Wbits\SoccerTeam\Player\Command\JoinTheTeam;
 use Wbits\SoccerTeam\Player\Property\Name;
 use Wbits\SoccerTeam\Player\Property\PlayerId;
 
@@ -17,13 +16,13 @@ class PlayerCommandFactory
         $this->uuidGenerator = $uuidGenerator;
     }
 
-    public function createJoinTheTeamCommand(array $properties): JoinTheTeam
+    public function createJoinTheTeamCommand(array $params): JoinTheTeam
     {
-        Assert::keyIsset($properties, 'first_name');
-        Assert::keyIsset($properties, 'last_name');
+        Assert::keyIsset($params, 'first_name');
+        Assert::keyIsset($params, 'last_name');
 
         $id   = new PlayerId($this->uuidGenerator->generate());
-        $name = new Name($properties['first_name'], $properties['last_name']);
+        $name = new Name($params['first_name'], $params['last_name']);
 
         return new JoinTheTeam($id, $name);
     }

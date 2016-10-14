@@ -6,7 +6,7 @@ use Assert\Assertion as Assert;
 use Broadway\CommandHandling\CommandBusInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Wbits\SoccerTeam\Player\PlayerCommandFactory;
+use Wbits\SoccerTeam\Player\Command\PlayerCommandFactory;
 
 class PlayerController
 {

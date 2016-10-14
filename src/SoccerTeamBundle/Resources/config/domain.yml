@@ -6,7 +6,7 @@ services:
       - { name: command_handler }
 
   soccer_team.player.command_factory:
-    class: Wbits\SoccerTeam\Player\PlayerCommandFactory
+    class: Wbits\SoccerTeam\Player\Command\PlayerCommandFactory
     arguments: ['@broadway.uuid.generator']
 
   soccer_team.player.player_repository:
