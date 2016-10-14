@@ -1,6 +1,6 @@
 <?php
 
-namespace Wbits\SoccerTeam\TeamMember\Property;
+namespace Wbits\SoccerTeam\Player\Property;
 
 final class Name
 {

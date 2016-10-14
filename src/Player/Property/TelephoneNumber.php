@@ -1,6 +1,6 @@
 <?php
 
-namespace Wbits\SoccerTeam\Profile;
+namespace Wbits\SoccerTeam\Player\Property;
 
 class TelephoneNumber
 {
