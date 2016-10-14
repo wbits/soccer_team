@@ -1,19 +1,19 @@
 services:
   soccer_team.player.command_handler:
-    class: Wbits\SoccerTeam\Player\PlayerCommandHandler
-    arguments: ['@soccer_team.player.player_repository']
+    class: Wbits\SoccerTeam\Team\Command\TeamCommandHandler
+    arguments: ['@soccer_team.team.team_repository']
     tags:
       - { name: command_handler }
 
-  soccer_team.player.command_factory:
-    class: Wbits\SoccerTeam\Player\Command\PlayerCommandFactory
+  soccer_team.team.command_factory:
+    class: Wbits\SoccerTeam\Team\Command\TeamCommandFactory
     arguments: ['@broadway.uuid.generator']
 
-  soccer_team.player.player_repository:
-    class: Wbits\SoccerTeam\Player\PlayerRepository
+  soccer_team.team.team_repository:
+    class: Wbits\SoccerTeam\Team\Command\TeamRepository
     arguments: ['@broadway.event_store', '@broadway.event_handling.event_bus']
 
-  soccer_team.read_model.repository.team_member:
-    class: Broadway\ReadModel\ReadModel
-    factory: ['@broadway.read_model.repository_factory', create]
-    arguments: ['soccer_team.read_model.team_members']
+#  soccer_team.read_model.repository.team_member:
+#    class: Broadway\ReadModel\ReadModel
+#    factory: ['@broadway.read_model.repository_factory', create]
+#    arguments: ['soccer_team.read_model.team_members']

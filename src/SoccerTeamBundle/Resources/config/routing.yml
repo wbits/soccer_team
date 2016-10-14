@@ -1,5 +1,11 @@
-memeber_joins_team:
-  path: /player/joins_the_team
+team_starts_season:
+  path: /team/seasonStart
   methods: [POST]
   defaults:
-    _controller: soccer_team.controller.player:joinTheTeamAction
+    _controller: soccer_team.controller.team:startSeasonAction
+
+player_joins_team:
+  path: /team/{teamId}/addPlayer
+  methods: [POST]
+  defaults:
+    _controller: soccer_team.controller.team:addPlayerAction

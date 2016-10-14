@@ -1,4 +1,4 @@
 services:
-  soccer_team.controller.player:
-    class: Wbits\SoccerTeam\SoccerTeamBundle\Controller\PlayerController
-    arguments: ['@broadway.command_handling.command_bus', '@soccer_team.player.command_factory']
+  soccer_team.controller.team:
+    class: Wbits\SoccerTeam\SoccerTeamBundle\Controller\TeamController
+    arguments: ['@broadway.command_handling.command_bus', '@soccer_team.team.command_factory']
