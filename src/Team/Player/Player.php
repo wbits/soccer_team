@@ -1,6 +1,6 @@
 <?php
 
-namespace Wbits\SoccerTeam\Player;
+namespace Wbits\SoccerTeam\Team\Player;
 
 use Wbits\SoccerTeam\Player\Property\Name;
 

@@ -3,31 +3,45 @@
 namespace Wbits\SoccerTeam\Team;
 
 use Broadway\EventSourcing\EventSourcedAggregateRoot;
-use Doctrine\Common\Collections\ArrayCollection;
+use Wbits\SoccerTeam\Team\Command\CreateNewTeam;
 use Wbits\SoccerTeam\Team\Event\PlayerJoinsTheTeam;
-use Wbits\SoccerTeam\Team\Event\TeamStartsNewSeason;
-use Wbits\SoccerTeam\Player\Player;
+use Wbits\SoccerTeam\Team\Event\TeamWasCreated;
+use Wbits\SoccerTeam\Team\Player\Player;
 
 class Team extends EventSourcedAggregateRoot
 {
     private $teamId;
 
     /**
-     * @var ArrayCollection|Player[]
+     * @var TeamInformation
+     */
+    private $information;
+
+    /**
+     * @var Player[]
      */
     private $players;
 
-    public static function startNewSeason(TeamId $teamId, TeamInformation $information)
+    /**
+     * @param TeamId $teamId
+     * @param TeamInformation $information
+     * @return Team
+     */
+    public static function create(TeamId $teamId, TeamInformation $information)
     {
         $team = new Team();
-        $team->apply(new TeamStartsNewSeason($teamId, $information));
+        $team->apply(new CreateNewTeam($teamId, $information));
 
         return $team;
     }
 
-    public function applyTeamStartsNewSeason(TeamStartsNewSeason $event)
+    /**
+     * @param TeamWasCreated $event
+     */
+    public function applyTeamWasCreated(TeamWasCreated $event)
     {
-        $this->teamId = $event->getTeamId();
+        $this->teamId      = $event->getTeamId();
+        $this->information = $event->getInformation();
     }
 
     public function addPlayer(Player $player)
@@ -50,14 +64,5 @@ class Team extends EventSourcedAggregateRoot
     public function getAggregateRootId()
     {
         return $this->teamId;
-    }
-
-    private function getPlayers(): ArrayCollection
-    {
-        if (is_null($this->players)) {
-            $this->players = new ArrayCollection();
-        }
-
-        return $this->players;
     }
 }

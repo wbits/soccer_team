@@ -5,7 +5,7 @@ namespace Wbits\SoccerTeam\Team\Event;
 use Broadway\Serializer\SerializableInterface;
 use Wbits\SoccerTeam\Team\TeamId;
 
-class TeamStartsNewSeason implements SerializableInterface
+class TeamWasCreated implements SerializableInterface
 {
     private $teamId;
 
@@ -26,10 +26,14 @@ class TeamStartsNewSeason implements SerializableInterface
         ];
     }
 
-    public static function deserialize(array $data): TeamStartsNewSeason
+    public static function deserialize(array $data): TeamWasCreated
     {
         return new self(
             new TeamId(...explode(':', $data['team_id']))
         );
+    }
+
+    public function getInformation()
+    {
     }
 }
