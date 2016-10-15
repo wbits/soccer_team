@@ -9,32 +9,19 @@ use Wbits\SoccerTeam\Team\TeamId;
 
 class TeamIdSpec extends ObjectBehavior
 {
-    function it_should_validate_season_to_match_given_pattern()
-    {
-        $this->shouldThrow(AssertionFailedException::class)->during('__construct', ['foo', 'bar', 'baz']);
-    }
+    const UUID = 'e283947b-03b6-403c-8451-565c2c2c0780';
 
-    function it_should_validate_club_and_team_are_not_empty()
+    function it_should_validate_team_id()
     {
-        $this->shouldThrow(AssertionFailedException::class)->during('__construct', ['', 'bar', '2017-2018']);
-        $this->shouldThrow(AssertionFailedException::class)->during('__construct', ['foo', '', '2017-2018']);
+        $this->shouldThrow(AssertionFailedException::class)->during('__construct', ['foo']);
     }
 
     function it_should_return_each_value_separate()
     {
-        $this->beConstructedWith('foo', 'bar', '2016-2017');
+        $this->beConstructedWith(self::UUID);
         $this->shouldHaveType(TeamId::class);
         $this->shouldImplement(Identifier::class);
 
-        $this->__toString()->shouldEqual('foo:bar:2016-2017');
-    }
-
-    function it_should_accept_an_array_through_variadic_function_call()
-    {
-        $id = 'jo:rock:2010-2011';
-        $this->beConstructedWith(...explode(':', $id));
-
-        $result = $this->__toString();
-        $result->shouldEqual('jo:rock:2010-2011');
+        $this->__toString()->shouldEqual(self::UUID);
     }
 }
