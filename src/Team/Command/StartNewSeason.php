@@ -30,7 +30,7 @@ class StartNewSeason
     {
         return [
             'team_id'    => (string) $this->teamId,
-            'team_name'  => $this->information->getName(),
+            'team_name'  => $this->information->getClub(),
             'season'    => $this->information->getSeason(),
         ];
     }

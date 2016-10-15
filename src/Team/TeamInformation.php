@@ -6,22 +6,43 @@ use Assert\Assertion as Assert;
 
 class TeamInformation
 {
-    private $name;
+    private $club;
+    private $team;
     private $season;
 
-    public function __construct(string $name, string $season)
+    /**
+     * @param string $club
+     * @param string $team
+     * @param string $season
+     */
+    public function __construct(string $club, string $team, string $season)
     {
-        Assert::regex($season, '/\d{4}-\d{4}/', 'season should look for example as follows \'2016-20117\'');
+        Assert::regex($season, '/\d{4}-\d{4}/', 'season should look for example as follows \'2016-2017\'');
 
-        $this->name   = $name;
+        $this->club   = $club;
+        $this->team   = $team;
         $this->season = $season;
     }
 
-    public function getName(): string
+    /**
+     * @return string
+     */
+    public function getClub(): string
     {
-        return $this->name;
+        return $this->club;
     }
 
+    /**
+     * @return string
+     */
+    public function getTeam(): string
+    {
+        return $this->team;
+    }
+
+    /**
+     * @return string
+     */
     public function getSeason(): string
     {
         return $this->season;
