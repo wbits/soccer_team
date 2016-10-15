@@ -14,7 +14,7 @@ class TeamCommandHandler extends CommandHandler
         $this->repository = $repository;
     }
 
-    public function handleStartNewSeason(createNewTeam $command)
+    public function handleStartNewSeason(CreateNewTeam $command)
     {
         $team = Team::startNewSeason($command->getTeamId(), $command->getInformation());
 

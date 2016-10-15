@@ -5,7 +5,7 @@ namespace Wbits\SoccerTeam\Team\Command;
 use Wbits\SoccerTeam\Team\TeamId;
 use Wbits\SoccerTeam\Team\TeamInformation;
 
-class createNewTeam
+class CreateNewTeam
 {
     private $teamId;
     private $information;

@@ -18,7 +18,7 @@ class TeamCommandFactory
         $this->uuidGenerator = $uuidGenerator;
     }
 
-    public function createCreateNewTeamCommand(array $params): createNewTeam
+    public function createCreateNewTeamCommand(array $params): CreateNewTeam
     {
         Assert::keyIsset($params, 'club');
         Assert::keyIsset($params, 'team');
@@ -27,7 +27,7 @@ class TeamCommandFactory
         $teamId = new TeamId($this->uuidGenerator->generate());
         $information = new TeamInformation($params['club'], $params['team'], $params['season']);
 
-        return new createNewTeam($teamId, $information);
+        return new CreateNewTeam($teamId, $information);
     }
 
     public function createAddPlayerCommand(array $params, string $teamId): AddPlayer
