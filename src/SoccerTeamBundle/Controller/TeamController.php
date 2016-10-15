@@ -19,18 +19,17 @@ class TeamController
         $this->commandFactory = $commandFactory;
     }
 
-    public function startSeasonAction(Request $request)
+    public function createTeamAction(Request $request)
     {
         $payload = $request->getContent();
 
         Assert::notEmpty($payload);
 
-        $params = json_decode($payload, true);
-
-        $command = $this->commandFactory->createStartNewSeasonCommand($params);
+        $params  = json_decode($payload, true);
+        $command = $this->commandFactory->createCreateNewTeamCommand($params);
         $this->commandBus->dispatch($command);
 
-        return new JsonResponse($command->toArray());
+        return new JsonResponse(['team_id' => (string)$command->getTeamId()]);
     }
 
     public function addPlayerAction(Request $request, string $teamId)

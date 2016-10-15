@@ -18,15 +18,16 @@ class TeamCommandFactory
         $this->uuidGenerator = $uuidGenerator;
     }
 
-    public function createStartNewSeasonCommand(array $params): StartNewSeason
+    public function createCreateNewTeamCommand(array $params): createNewTeam
     {
-        Assert::keyIsset($params, 'team_name');
+        Assert::keyIsset($params, 'club');
+        Assert::keyIsset($params, 'team');
         Assert::keyIsset($params, 'season');
 
         $teamId = new TeamId($this->uuidGenerator->generate());
-        $information = new TeamInformation($params['team_name'], $params['season']);
+        $information = new TeamInformation($params['club'], $params['team'], $params['season']);
 
-        return new StartNewSeason($teamId, $information);
+        return new createNewTeam($teamId, $information);
     }
 
     public function createAddPlayerCommand(array $params, string $teamId): AddPlayer

@@ -3,14 +3,14 @@
 namespace Wbits\SoccerTeam\Team\Command;
 
 use Wbits\SoccerTeam\Team\TeamId;
-use Wbits\SoccerTeam\Team\TeamId;
+use Wbits\SoccerTeam\Team\TeamInformation;
 
-class StartNewSeason
+class createNewTeam
 {
     private $teamId;
     private $information;
 
-    public function __construct(TeamId $teamId, TeamId $information)
+    public function __construct(TeamId $teamId, TeamInformation $information)
     {
         $this->teamId      = $teamId;
         $this->information = $information;
@@ -21,17 +21,8 @@ class StartNewSeason
         return $this->teamId;
     }
 
-    public function getInformation(): TeamId
+    public function getInformation(): TeamInformation
     {
         return $this->information;
-    }
-
-    public function toArray(): array
-    {
-        return [
-            'team_id'    => (string) $this->teamId,
-            'team_name'  => $this->information->getClubName(),
-            'season'    => $this->information->getSeason(),
-        ];
     }
 }
