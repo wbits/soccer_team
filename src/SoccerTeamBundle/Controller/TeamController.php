@@ -28,7 +28,7 @@ class TeamController
      *
      * @return JsonResponse
      */
-    public function createTeamAction(Request $request)
+    public function createTeamAction(Request $request): JsonResponse
     {
         $params  = $this->getParams($request->getContent());
         $command = $this->dispatchCommand('createCreateNewTeamCommand', [$params]);
@@ -47,7 +47,7 @@ class TeamController
      *
      * @return JsonResponse
      */
-    public function addPlayerAction(Request $request, string $teamId)
+    public function addPlayerAction(Request $request, string $teamId): JsonResponse
     {
         Assert::uuid($teamId);
 
@@ -68,7 +68,7 @@ class TeamController
      *
      * @return JsonResponse
      */
-    public function removePlayerAction(Request $request, string $teamId)
+    public function removePlayerAction(Request $request, string $teamId): JsonResponse
     {
         Assert::uuid($teamId);
 
