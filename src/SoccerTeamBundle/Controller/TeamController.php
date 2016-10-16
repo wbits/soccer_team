@@ -103,14 +103,14 @@ class TeamController
     }
 
     /**
-     * @param string $commandName
+     * @param string $factoryMethodName
      * @param array  $args
      *
      * @return mixed
      */
-    private function dispatchCommand(string $commandName, array $args)
+    private function dispatchCommand(string $factoryMethodName, array $args)
     {
-        $command = call_user_func_array([$this->commandFactory, $commandName], $args);
+        $command = call_user_func_array([$this->commandFactory, $factoryMethodName], $args);
 
         $this->commandBus->dispatch($command);
 
