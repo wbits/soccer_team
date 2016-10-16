@@ -34,7 +34,7 @@ class PlayerLeavesTheTeam extends AbstractTeamEvent
         return array_merge(
             parent::serialize(),
             [
-                'email_address' => $this->emailAddress
+                'email_address' => $this->emailAddress,
             ]
         );
     }

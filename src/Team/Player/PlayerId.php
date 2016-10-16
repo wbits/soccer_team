@@ -2,8 +2,8 @@
 
 namespace Wbits\SoccerTeam\Player\Property;
 
+use Assert\Assertion as Assert;
 use Wbits\SoccerTeam\Identifier;
-use Assert\Assertion As Assert;
 
 class PlayerId implements Identifier
 {

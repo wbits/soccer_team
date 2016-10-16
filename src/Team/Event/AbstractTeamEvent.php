@@ -3,7 +3,8 @@
 namespace Wbits\SoccerTeam\Team\Event;
 
 use Broadway\Serializer\SerializableInterface;
-use Wbits\SoccerTeam\Team\{TeamId, TeamInformation};
+use Wbits\SoccerTeam\Team\TeamId;
+use Wbits\SoccerTeam\Team\TeamInformation;
 
 abstract class AbstractTeamEvent implements SerializableInterface
 {

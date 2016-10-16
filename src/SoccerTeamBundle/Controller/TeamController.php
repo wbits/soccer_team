@@ -4,7 +4,8 @@ namespace Wbits\SoccerTeam\SoccerTeamBundle\Controller;
 
 use Assert\Assertion as Assert;
 use Broadway\CommandHandling\CommandBusInterface;
-use Symfony\Component\HttpFoundation\{JsonResponse, Request};
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Wbits\SoccerTeam\Team\Command\TeamCommandFactory;
 
 class TeamController
@@ -14,7 +15,7 @@ class TeamController
 
     /**
      * @param CommandBusInterface $commandBus
-     * @param TeamCommandFactory $commandFactory
+     * @param TeamCommandFactory  $commandFactory
      */
     public function __construct(CommandBusInterface $commandBus, TeamCommandFactory $commandFactory)
     {
@@ -33,16 +34,16 @@ class TeamController
         $command = $this->dispatchCommand('createCreateNewTeamCommand', [$params]);
 
         return new JsonResponse([
-            'team_id' => (string)$command->getTeamId(),
+            'team_id' => (string) $command->getTeamId(),
             'club'    => $command->getClub(),
             'team'    => $command->getTeam(),
-            'season'  => $command->getSeason()
+            'season'  => $command->getSeason(),
         ]);
     }
 
     /**
      * @param Request $request
-     * @param string $teamId
+     * @param string  $teamId
      *
      * @return JsonResponse
      */
@@ -54,7 +55,7 @@ class TeamController
         $command = $this->dispatchCommand('createAddPlayerCommand', [$params, $teamId]);
 
         return new JsonResponse([
-            'team_id'    => (string)$command->getTeamId(),
+            'team_id'    => (string) $command->getTeamId(),
             'first_name' => $command->getFirstName(),
             'last_name'  => $command->getLastName(),
             'email'      => $command->getEmailAddress(),
@@ -63,7 +64,7 @@ class TeamController
 
     /**
      * @param Request $request
-     * @param string $teamId
+     * @param string  $teamId
      *
      * @return JsonResponse
      */
@@ -75,19 +76,17 @@ class TeamController
         $command = $this->dispatchCommand('createRemovePlayerCommand', [$params, $teamId]);
 
         return new JsonResponse([
-            'team_id' => (string)$command->getTeamId(),
+            'team_id' => (string) $command->getTeamId(),
             'email'   => $command->getEmailAddress(),
         ]);
     }
 
     public function appointTrainerAction()
     {
-
     }
 
     public function fireTrainerAction()
     {
-
     }
 
     /**
@@ -105,7 +104,7 @@ class TeamController
 
     /**
      * @param string $commandName
-     * @param array $args
+     * @param array  $args
      *
      * @return mixed
      */

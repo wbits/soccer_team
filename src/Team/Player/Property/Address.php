@@ -34,11 +34,13 @@ class Address
 
     /**
      * @param string $streetName
+     *
      * @return Address
      */
     public function setStreetName(string $streetName): Address
     {
         $this->streetName = $streetName;
+
         return $this;
     }
 

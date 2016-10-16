@@ -9,8 +9,8 @@ final class Name
 
     public function __construct(string $firstName, string $lastName)
     {
-        $this->firstName    = $firstName;
-        $this->lastName     = $lastName;
+        $this->firstName = $firstName;
+        $this->lastName  = $lastName;
     }
 
     public function getFirstName(): string

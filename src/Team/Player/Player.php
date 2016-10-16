@@ -3,7 +3,8 @@
 namespace Wbits\SoccerTeam\Team\Player;
 
 use Broadway\EventSourcing\EventSourcedEntity;
-use Wbits\SoccerTeam\Team\Player\Property\{Email, Name};
+use Wbits\SoccerTeam\Team\Player\Property\Email;
+use Wbits\SoccerTeam\Team\Player\Property\Name;
 
 class Player extends EventSourcedEntity
 {
@@ -19,7 +20,7 @@ class Player extends EventSourcedEntity
 
     /**
      * @param Email $email
-     * @param Name $name
+     * @param Name  $name
      */
     public function __construct(Email $email, Name $name)
     {
@@ -47,6 +48,7 @@ class Player extends EventSourcedEntity
      * @param string $emailAddress
      * @param string $firstName
      * @param string $lastName
+     *
      * @return Player
      */
     public static function create(string $emailAddress, string $firstName, string $lastName): Player
@@ -54,6 +56,6 @@ class Player extends EventSourcedEntity
         $email = new Email($emailAddress);
         $name  = new Name($firstName, $lastName);
 
-        return new Player($email, $name);
+        return new self($email, $name);
     }
 }

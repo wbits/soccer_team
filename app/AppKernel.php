@@ -10,7 +10,7 @@ use Wbits\SoccerTeam\SoccerTeamBundle\SoccerTeamBundle;
 class AppKernel extends Kernel
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function registerBundles(): array
     {
@@ -24,10 +24,10 @@ class AppKernel extends Kernel
         return $bundles;
     }
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
+        $loader->load(__DIR__ . '/config/config_' . $this->getEnvironment() . '.yml');
     }
 }

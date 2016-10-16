@@ -5,9 +5,6 @@ namespace Wbits\SoccerTeam\Team\Command;
 use Assert\Assertion as Assert;
 use Broadway\UuidGenerator\UuidGeneratorInterface;
 use Wbits\SoccerTeam\Team\TeamId;
-use Wbits\SoccerTeam\Team\TeamInformation;
-use Wbits\SoccerTeam\Player\Player;
-use Wbits\SoccerTeam\Player\Property\Name;
 
 class TeamCommandFactory
 {
@@ -41,7 +38,7 @@ class TeamCommandFactory
     }
 
     /**
-     * @param array $params
+     * @param array  $params
      * @param string $teamId
      *
      * @return AddPlayer

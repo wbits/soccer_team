@@ -4,9 +4,9 @@ namespace Wbits\SoccerTeam\Team;
 
 use Broadway\EventSourcing\EventSourcedAggregateRoot;
 use Doctrine\Common\Collections\ArrayCollection;
-use Wbits\SoccerTeam\Team\Event\{
-    PlayerJoinsTheTeam, PlayerLeavesTheTeam, TeamWasCreated
-};
+use Wbits\SoccerTeam\Team\Event\PlayerJoinsTheTeam;
+use Wbits\SoccerTeam\Team\Event\PlayerLeavesTheTeam;
+use Wbits\SoccerTeam\Team\Event\TeamWasCreated;
 use Wbits\SoccerTeam\Team\Player\Player;
 
 class Team extends EventSourcedAggregateRoot
@@ -36,7 +36,7 @@ class Team extends EventSourcedAggregateRoot
      */
     public static function create(TeamId $teamId, string $club, string $teamName, string $season)
     {
-        $team = new Team();
+        $team = new self();
 
         $team->apply(
             new TeamWasCreated($teamId, $club, $teamName, $season)
@@ -101,7 +101,7 @@ class Team extends EventSourcedAggregateRoot
      */
     public function removePlayerFromTheTeam(string $emailAddress)
     {
-        if (!$this->players->containsKey($emailAddress)) {
+        if (! $this->players->containsKey($emailAddress)) {
             return;
         }
 
@@ -121,7 +121,7 @@ class Team extends EventSourcedAggregateRoot
      */
     public function getChildEntities(): array
     {
-        return $this->players ? $this->players->toArray(): [];
+        return $this->players ? $this->players->toArray() : [];
     }
 
     public function getAggregateRootId()
