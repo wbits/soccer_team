@@ -2,26 +2,58 @@
 
 namespace Wbits\SoccerTeam\Team\Player;
 
-use Wbits\SoccerTeam\Player\Property\Name;
+use Broadway\EventSourcing\EventSourcedEntity;
+use Wbits\SoccerTeam\Team\Player\Property\{Email, Name};
 
-class Player
+class Player extends EventSourcedEntity
 {
+    /**
+     * @var Name
+     */
     private $name;
 
-    public function __construct(Name $name)
+    /**
+     * @var Email
+     */
+    private $email;
+
+    /**
+     * @param Email $email
+     * @param Name $name
+     */
+    public function __construct(Email $email, Name $name)
     {
-        $this->name = $name;
+        $this->email = $email;
+        $this->name  = $name;
     }
 
+    /**
+     * @return Email
+     */
+    public function getEmail(): Email
+    {
+        return $this->email;
+    }
+
+    /**
+     * @return Name
+     */
     public function getName(): Name
     {
         return $this->name;
     }
 
-    public static function create(string $firstName, string $lastName): Player
+    /**
+     * @param string $emailAddress
+     * @param string $firstName
+     * @param string $lastName
+     * @return Player
+     */
+    public static function create(string $emailAddress, string $firstName, string $lastName): Player
     {
-        return new self (
-            new Name($firstName, $lastName)
-        );
+        $email = new Email($emailAddress);
+        $name  = new Name($firstName, $lastName);
+
+        return new Player($email, $name);
     }
 }

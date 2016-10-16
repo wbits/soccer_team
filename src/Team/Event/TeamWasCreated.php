@@ -2,38 +2,80 @@
 
 namespace Wbits\SoccerTeam\Team\Event;
 
-use Broadway\Serializer\SerializableInterface;
 use Wbits\SoccerTeam\Team\TeamId;
 
-class TeamWasCreated implements SerializableInterface
+class TeamWasCreated extends AbstractTeamEvent
 {
-    private $teamId;
+    private $club;
+    private $team;
+    private $season;
 
-    public function __construct(TeamId $teamId)
+    /**
+     * @param TeamId $teamId
+     * @param string $club
+     * @param string $team
+     * @param string $season
+     */
+    public function __construct(TeamId $teamId, string $club, string $team, string $season)
     {
-        $this->teamId = $teamId;
+        parent::__construct($teamId);
+
+        $this->club   = $club;
+        $this->team   = $team;
+        $this->season = $season;
     }
 
-    public function getTeamId(): TeamId
+    /**
+     * @return string
+     */
+    public function getClub(): string
     {
-        return $this->teamId;
+        return $this->club;
     }
 
+    /**
+     * @return string
+     */
+    public function getTeam(): string
+    {
+        return $this->team;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSeason(): string
+    {
+        return $this->season;
+    }
+
+    /**
+     * @return array
+     */
     public function serialize(): array
     {
-        return [
-            'team_id' => (string) $this->teamId,
-        ];
-    }
-
-    public static function deserialize(array $data): TeamWasCreated
-    {
-        return new self(
-            new TeamId(...explode(':', $data['team_id']))
+        return array_merge(
+            parent::serialize(),
+            [
+                'club'   => $this->club,
+                'team'   => $this->team,
+                'season' => $this->season,
+            ]
         );
     }
 
-    public function getInformation()
+    /**
+     * @param array $data
+     *
+     * @return TeamWasCreated
+     */
+    public static function deserialize(array $data): TeamWasCreated
     {
+        return new self(
+            self::getTeamIdInstance($data['team_id']),
+            $data['club'],
+            $data['team'],
+            $data['season']
+        );
     }
 }

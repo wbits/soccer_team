@@ -4,32 +4,70 @@ namespace Wbits\SoccerTeam\Team\Command;
 
 use Broadway\CommandHandling\CommandHandler;
 use Wbits\SoccerTeam\Team\Team;
+use Wbits\SoccerTeam\Team\TeamId;
 
 class TeamCommandHandler extends CommandHandler
 {
     private $repository;
 
+    /**
+     * @param TeamRepository $repository
+     */
     public function __construct(TeamRepository $repository)
     {
         $this->repository = $repository;
     }
 
+    /**
+     * @param CreateNewTeam $command
+     */
     public function handleCreateNewTeam(CreateNewTeam $command)
     {
         $team = Team::create(
             $command->getTeamId(),
-            $command->getInformation()
+            $command->getClub(),
+            $command->getTeam(),
+            $command->getSeason()
         );
 
         $this->repository->save($team);
     }
 
+    /**
+     * @param AddPlayer $command
+     */
     public function handleAddPlayer(AddPlayer $command)
     {
-        /** @var Team $team */
-        $team = $this->repository->load($command->getTeamId());
-        $team->addPlayer($command->getPlayer());
+        $team = $this->loadTeam($command->getTeamId());
+
+        $team->addPlayerToTheTeam(
+            $command->getEmailAddress(),
+            $command->getFirstName(),
+            $command->getLastName()
+        );
 
         $this->repository->save($team);
+    }
+
+    /**
+     * @param RemovePlayer $command
+     */
+    public function handleRemovePlayer(RemovePlayer $command)
+    {
+        $team = $this->loadTeam($command->getTeamId());
+
+        $team->removePlayerFromTheTeam($command->getEmailAddress());
+
+        $this->repository->save($team);
+    }
+
+    /**
+     * @param TeamId $teamId
+     *
+     * @return Team
+     */
+    private function loadTeam(TeamId $teamId): Team
+    {
+        return $this->repository->load($teamId);
     }
 }

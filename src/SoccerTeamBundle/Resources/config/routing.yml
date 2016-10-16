@@ -1,11 +1,23 @@
 team_starts_season:
-  path: /team/seasonStart
+  path: /team/create
   methods: [POST]
   defaults:
-    _controller: soccer_team.controller.team:startSeasonAction
+    _controller: soccer_team.controller.team:createTeamAction
 
 player_joins_team:
   path: /team/{teamId}/addPlayer
   methods: [POST]
   defaults:
     _controller: soccer_team.controller.team:addPlayerAction
+
+player_leaves_team:
+  path: /team/{teamId}/removePlayer
+  methods: [POST]
+  defaults:
+    _controller: soccer_team.controller.team:removePlayerAction
+
+#players_in_the_team:
+#  path: /team/{teamId}/showPlayers
+#  methods: [GET]
+#  defaults:
+#    _controller: soccer_team.controller.players_in_the_team:showPlayersAction

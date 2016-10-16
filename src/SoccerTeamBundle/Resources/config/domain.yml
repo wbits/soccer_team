@@ -13,7 +13,13 @@ services:
     class: Wbits\SoccerTeam\Team\Command\TeamRepository
     arguments: ['@broadway.event_store', '@broadway.event_handling.event_bus']
 
-#  soccer_team.read_model.repository.team_member:
+#  soccer_team.read_model.repository.players_in_the_team:
 #    class: Broadway\ReadModel\ReadModel
 #    factory: ['@broadway.read_model.repository_factory', create]
-#    arguments: ['soccer_team.read_model.team_members']
+#    arguments: ['soccer_team.read_model.players_in_the_team', 'Wbits\SoccerTeam\ReadModel\PlayersInTheTeam']
+#
+#  soccer_team.read_model.projector.players_in_the_team:
+#    class: Wbits\SoccerTeam\ReadModel\PlayersInTheTeamProjector
+#    arguments: ['@soccer_team.read_model.repository.players_in_the_team']
+#    tags:
+#      - { name: broadway.domain.event_listener }

@@ -3,37 +3,57 @@
 namespace Wbits\SoccerTeam\Team\Command;
 
 use Wbits\SoccerTeam\Team\TeamId;
-use Wbits\SoccerTeam\Player\Player;
 
 class AddPlayer
 {
     private $teamId;
-    private $player;
+    private $emailAddress;
+    private $firstName;
+    private $lastName;
 
-    public function __construct(TeamId $teamId, Player $player)
+    /**
+     * @param TeamId $teamId
+     * @param string $emailAddress
+     * @param string $firstName
+     * @param string $lastName
+     */
+    public function __construct(TeamId $teamId, string $emailAddress, string $firstName, string $lastName)
     {
-        $this->teamId = $teamId;
-        $this->player = $player;
+        $this->teamId       = $teamId;
+        $this->emailAddress = $emailAddress;
+        $this->firstName    = $firstName;
+        $this->lastName     = $lastName;
     }
 
+    /**
+     * @return TeamId
+     */
     public function getTeamId(): TeamId
     {
         return $this->teamId;
     }
 
-    public function getPlayer(): Player
+    /**
+     * @return string
+     */
+    public function getEmailAddress(): string
     {
-        return $this->player;
+        return $this->emailAddress;
     }
 
-    public function toArray()
+    /**
+     * @return string
+     */
+    public function getFirstName(): string
     {
-        $name = $this->player->getName();
+        return $this->firstName;
+    }
 
-        return [
-            'team_id'    => (string) $this->teamId,
-            'first_name' => $name->getFirstName(),
-            'last_name'  => $name->getLastName(),
-        ];
+    /**
+     * @return string
+     */
+    public function getLastName(): string
+    {
+        return $this->lastName;
     }
 }
