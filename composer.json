@@ -30,7 +30,8 @@
   },
   "require-dev": {
     "phpspec/phpspec": "^3.1",
-    "henrikbjorn/phpspec-code-coverage": "^3.0"
+    "henrikbjorn/phpspec-code-coverage": "^3.0",
+    "friendsofphp/php-cs-fixer": "^1.12"
   },
   "scripts": {
     "test": "vendor/bin/phpspec run",
