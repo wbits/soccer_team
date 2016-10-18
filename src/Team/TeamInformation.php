@@ -4,7 +4,7 @@ namespace Wbits\SoccerTeam\Team;
 
 use Assert\Assertion as Assert;
 
-class TeamInformation
+final class TeamInformation
 {
     private $club;
     private $team;
