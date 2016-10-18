@@ -47,7 +47,7 @@ class PlayerLeavesTheTeam extends AbstractTeamEvent
     public static function deserialize(array $data): PlayerLeavesTheTeam
     {
         return new self(
-            self::getTeamIdInstance($data['team_id']),
+            new TeamId($data['team_id']),
             $data['email_address']
         );
     }

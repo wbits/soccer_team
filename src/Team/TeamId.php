@@ -5,7 +5,7 @@ namespace Wbits\SoccerTeam\Team;
 use Assert\Assertion as Assert;
 use Wbits\SoccerTeam\Identifier;
 
-class TeamId implements Identifier
+final class TeamId implements Identifier
 {
     /**
      * @var string

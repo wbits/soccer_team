@@ -3,13 +3,10 @@
 namespace Wbits\SoccerTeam\Team\Event;
 
 use Broadway\Serializer\SerializableInterface;
-use BroadwaySerialization\Serialization\Serializable;
 use Wbits\SoccerTeam\Team\TeamId;
 
 class PlayerJoinsTheTeam implements SerializableInterface
 {
-    use Serializable;
-
     /**
      * @var TeamId
      */
@@ -65,12 +62,29 @@ class PlayerJoinsTheTeam implements SerializableInterface
     }
 
     /**
+     * @param array $data
+     * @return PlayerJoinsTheTeam
+     */
+    public static function deserialize(array $data): PlayerJoinsTheTeam
+    {
+        return new self(
+            new TeamId($data['team_id']),
+            $data['email_address'],
+            $data['first_name'],
+            $data['last_name']
+        );
+    }
+
+    /**
      * @return array
      */
-    protected static function deserializationCallbacks(): array
+    public function serialize(): array
     {
         return [
-            'team_id' => ['TeamId', 'deserialize'],
+            'team_id'       => (string) $this->teamId,
+            'email_address' => $this->emailAddress,
+            'first_name'    => $this->firstName,
+            'last_name'     => $this->lastName,
         ];
     }
 }
