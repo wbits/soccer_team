@@ -2,10 +2,18 @@
 
 namespace Wbits\SoccerTeam\Team\Event;
 
+use Broadway\Serializer\SerializableInterface;
+use BroadwaySerialization\Serialization\Serializable;
 use Wbits\SoccerTeam\Team\TeamId;
 
-class PlayerJoinsTheTeam extends AbstractTeamEvent
+class PlayerJoinsTheTeam implements SerializableInterface
 {
+    use Serializable;
+
+    /**
+     * @var TeamId
+     */
+    private $teamId;
     private $emailAddress;
     private $firstName;
     private $lastName;
@@ -18,11 +26,18 @@ class PlayerJoinsTheTeam extends AbstractTeamEvent
      */
     public function __construct(TeamId $teamId, string $emailAddress, string $firstName, string $lastName)
     {
-        parent::__construct($teamId);
-
+        $this->teamId       = $teamId;
         $this->emailAddress = $emailAddress;
         $this->firstName    = $firstName;
         $this->lastName     = $lastName;
+    }
+
+    /**
+     * @return TeamId
+     */
+    public function getTeamId(): TeamId
+    {
+        return $this->teamId;
     }
 
     /**
@@ -52,30 +67,10 @@ class PlayerJoinsTheTeam extends AbstractTeamEvent
     /**
      * @return array
      */
-    public function serialize(): array
+    protected static function deserializationCallbacks(): array
     {
-        return array_merge(
-            parent::serialize(),
-            [
-                'email_address' => $this->emailAddress,
-                'first_name'    => $this->firstName,
-                'last_name'     => $this->lastName,
-            ]
-        );
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return PlayerJoinsTheTeam
-     */
-    public static function deserialize(array $data): PlayerJoinsTheTeam
-    {
-        return new self(
-            self::getTeamIdInstance($data['team_id']),
-            $data['email_address'],
-            $data['first_name'],
-            $data['last_name']
-        );
+        return [
+            'team_id' => ['TeamId', 'deserialize'],
+        ];
     }
 }

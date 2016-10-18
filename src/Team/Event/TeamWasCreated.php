@@ -2,10 +2,15 @@
 
 namespace Wbits\SoccerTeam\Team\Event;
 
+use Broadway\Serializer\SerializableInterface;
+use BroadwaySerialization\Serialization\Serializable;
 use Wbits\SoccerTeam\Team\TeamId;
 
-class TeamWasCreated extends AbstractTeamEvent
+class TeamWasCreated implements SerializableInterface
 {
+    use Serializable;
+
+    private $teamId;
     private $club;
     private $team;
     private $season;
@@ -18,11 +23,15 @@ class TeamWasCreated extends AbstractTeamEvent
      */
     public function __construct(TeamId $teamId, string $club, string $team, string $season)
     {
-        parent::__construct($teamId);
-
+        $this->teamId = $teamId;
         $this->club   = $club;
         $this->team   = $team;
         $this->season = $season;
+    }
+
+    public function getTeamId(): TeamId
+    {
+        return $this->teamId;
     }
 
     /**
@@ -52,30 +61,10 @@ class TeamWasCreated extends AbstractTeamEvent
     /**
      * @return array
      */
-    public function serialize(): array
+    protected static function deserializationCallbacks(): array
     {
-        return array_merge(
-            parent::serialize(),
-            [
-                'club'   => $this->club,
-                'team'   => $this->team,
-                'season' => $this->season,
-            ]
-        );
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return TeamWasCreated
-     */
-    public static function deserialize(array $data): TeamWasCreated
-    {
-        return new self(
-            self::getTeamIdInstance($data['team_id']),
-            $data['club'],
-            $data['team'],
-            $data['season']
-        );
+        return [
+            'team_id' => ['TeamId', 'deserialize'],
+        ];
     }
 }

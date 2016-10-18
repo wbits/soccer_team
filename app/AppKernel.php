@@ -1,6 +1,7 @@
 <?php
 
 use Broadway\Bundle\BroadwayBundle\BroadwayBundle;
+use BroadwaySerialization\SymfonyIntegration\BroadwaySerializationBundle;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -19,6 +20,7 @@ class AppKernel extends Kernel
             new SoccerTeamBundle(),
             new FrameworkBundle(),
             new DoctrineBundle(),
+            new BroadwaySerializationBundle(),
         ];
 
         return $bundles;
