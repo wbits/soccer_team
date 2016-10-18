@@ -6,6 +6,7 @@ use Assert\Assertion as Assert;
 use Broadway\CommandHandling\CommandBusInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Wbits\SoccerTeam\Team\Command\ScheduleMatch;
 use Wbits\SoccerTeam\Team\Command\TeamCommandFactory;
 
 class TeamController
@@ -87,6 +88,21 @@ class TeamController
 
     public function fireTrainerAction()
     {
+    }
+
+    public function scheduleMatchAction(Request $request, string $teamId): JsonResponse
+    {
+        Assert::uuid($teamId);
+
+        $params  = $this->getParams($request->getContent());
+        $command = $this->dispatchCommand('createScheduleMatchCommand', [$params, $teamId]);
+
+        return new JsonResponse([
+            'team_id'  => (string) $command->getTeamId(),
+            'match_id' => $command->getMatchId(),
+            'kick_off' => $command->getKickOff()->format(DATE_ISO8601),
+            'opponent' => sprintf('%s-%s', $command->getOpponent()->getClub(), $command->getOpponent()->getTeam()),
+        ]);
     }
 
     /**

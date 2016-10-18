@@ -2,7 +2,7 @@
 
 namespace Wbits\SoccerTeam\Team\Match;
 
-use Wbits\SoccerTeam\PLayer\Property\Address;
+use Wbits\SoccerTeam\Team\Property\Address;
 
 class Opponent
 {

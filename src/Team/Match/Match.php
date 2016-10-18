@@ -35,14 +35,12 @@ class Match extends EventSourcedEntity
      * @param string $matchId
      * @param Opponent $opponent
      * @param \DateTime $kickOff
-     * @param Result $result
      */
-    public function __construct(string $matchId, Opponent $opponent, \DateTime $kickOff, Result $result)
+    public function __construct(string $matchId, Opponent $opponent, \DateTime $kickOff)
     {
         $this->matchId  = $matchId;
         $this->opponent = $opponent;
         $this->kickOff  = $kickOff;
-        $this->result   = $result;
     }
 
     /**
@@ -75,6 +73,18 @@ class Match extends EventSourcedEntity
     public function getResult(): Result
     {
         return $this->result;
+    }
+
+    /**
+     * @param Result $result
+     *
+     * @return Match
+     */
+    public function setResult(Result $result): Match
+    {
+        $this->result = $result;
+
+        return $this;
     }
 
     /**

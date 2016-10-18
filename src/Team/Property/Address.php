@@ -1,6 +1,6 @@
 <?php
 
-namespace Wbits\SoccerTeam\PLayer\Property;
+namespace Wbits\SoccerTeam\Team\Property;
 
 class Address
 {
@@ -23,6 +23,20 @@ class Address
      * @var string
      */
     private $city;
+
+    /**
+     * @param string $streetName
+     * @param int $houseNumber
+     * @param string $postalCode
+     * @param string $city
+     */
+    public function __construct($streetName, $houseNumber, $postalCode, $city)
+    {
+        $this->streetName = $streetName;
+        $this->houseNumber = $houseNumber;
+        $this->postalCode = $postalCode;
+        $this->city = $city;
+    }
 
     /**
      * @return string

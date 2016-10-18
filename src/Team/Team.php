@@ -4,9 +4,12 @@ namespace Wbits\SoccerTeam\Team;
 
 use Broadway\EventSourcing\EventSourcedAggregateRoot;
 use Doctrine\Common\Collections\ArrayCollection;
+use Wbits\SoccerTeam\Team\Event\MatchWasScheduled;
 use Wbits\SoccerTeam\Team\Event\PlayerJoinsTheTeam;
 use Wbits\SoccerTeam\Team\Event\PlayerLeavesTheTeam;
 use Wbits\SoccerTeam\Team\Event\TeamWasCreated;
+use Wbits\SoccerTeam\Team\Match\Match;
+use Wbits\SoccerTeam\Team\Match\Opponent;
 use Wbits\SoccerTeam\Team\Player\Player;
 
 class Team extends EventSourcedAggregateRoot
@@ -22,9 +25,14 @@ class Team extends EventSourcedAggregateRoot
     private $information;
 
     /**
-     * @var ArrayCollection<Player>
+     * @var ArrayCollection|Player[]
      */
     private $players;
+
+    /**
+     * @var ArrayCollection|Match[]
+     */
+    private $matches;
 
     /**
      * @param TeamId $teamId
@@ -117,11 +125,41 @@ class Team extends EventSourcedAggregateRoot
     }
 
     /**
+     * @param int $matchId
+     * @param \DateTime $kickOff
+     * @param Opponent $opponent
+     */
+    public function scheduleMatch(int $matchId, \DateTime $kickOff, Opponent $opponent)
+    {
+        if ($this->matches && $this->matches->containsKey($matchId)) {
+            throw new \InvalidArgumentException(sprintf('A match with id: %s was already scheduled', $matchId));
+        }
+
+        $this->apply(new MatchWasScheduled($this->teamId, $matchId, $kickOff, $opponent));
+    }
+
+    /**
+     * @param MatchWasScheduled $event
+     */
+    public function applyMatchWasScheduled(MatchWasScheduled $event)
+    {
+        $this->matches = $this->matches ?? new ArrayCollection;
+
+        $this->matches->set(
+            $event->getMatchId(),
+            new Match($event->getMatchId(), $event->getOpponent(), $event->getKickOff())
+        );
+    }
+
+    /**
      * @return Player[]
      */
     public function getChildEntities(): array
     {
-        return $this->players ? $this->players->toArray() : [];
+        return [
+            'players' => $this->players ? $this->players->toArray(): [],
+            'matches' => $this->matches ? $this->matches->toArray(): [],
+        ];
     }
 
     public function getAggregateRootId()

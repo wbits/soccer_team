@@ -16,6 +16,12 @@ player_leaves_team:
   defaults:
     _controller: soccer_team.controller.team:removePlayerAction
 
+schedule_match:
+  path: /team/{teamId}/scheduleMatch
+  methods: [POST]
+  defaults:
+    _controller: soccer_team.controller.team:scheduleMatchAction
+
 #players_in_the_team:
 #  path: /team/{teamId}/showPlayers
 #  methods: [GET]
