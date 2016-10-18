@@ -3,8 +3,8 @@
 namespace Wbits\SoccerTeam\Team\Player;
 
 use Broadway\EventSourcing\EventSourcedEntity;
-use Wbits\SoccerTeam\Team\Player\Property\Email;
-use Wbits\SoccerTeam\Team\Player\Property\Name;
+use Wbits\SoccerTeam\Team\Property\Email;
+use Wbits\SoccerTeam\Team\Property\Name;
 
 class Player extends EventSourcedEntity
 {

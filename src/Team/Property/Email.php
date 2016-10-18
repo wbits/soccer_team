@@ -1,11 +1,11 @@
 <?php
 
-namespace Wbits\SoccerTeam\Team\Player\Property;
+namespace Wbits\SoccerTeam\Team\Property;
 
 use Assert\Assertion as Assert;
 use Wbits\SoccerTeam\Identifier;
 
-class Email implements Identifier
+final class Email implements Identifier
 {
     private $emailAddress;
 
