@@ -3,11 +3,26 @@
 namespace Wbits\SoccerTeam\Team;
 
 use Assert\Assertion as Assert;
+use JMS\Serializer\Annotation as Serializer;
 
+/**
+ * @Serializer\ExclusionPolicy("none")
+ */
 final class TeamInformation
 {
+    /**
+     * @var string
+     */
     private $club;
+
+    /**
+     * @var string
+     */
     private $team;
+
+    /**
+     * @var string
+     */
     private $season;
 
     /**

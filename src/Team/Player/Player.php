@@ -3,9 +3,12 @@
 namespace Wbits\SoccerTeam\Team\Player;
 
 use Broadway\EventSourcing\EventSourcedEntity;
-use Wbits\SoccerTeam\Team\Property\Email;
-use Wbits\SoccerTeam\Team\Property\Name;
+use JMS\Serializer\Annotation as Serializer;
+use Wbits\SoccerTeam\Team\Property\{Email, Name};
 
+/**
+ * @Serializer\ExclusionPolicy("none")
+ */
 class Player extends EventSourcedEntity
 {
     /**

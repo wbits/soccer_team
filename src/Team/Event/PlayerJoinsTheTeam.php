@@ -63,6 +63,7 @@ class PlayerJoinsTheTeam implements SerializableInterface
 
     /**
      * @param array $data
+     *
      * @return PlayerJoinsTheTeam
      */
     public static function deserialize(array $data): PlayerJoinsTheTeam
@@ -81,7 +82,7 @@ class PlayerJoinsTheTeam implements SerializableInterface
     public function serialize(): array
     {
         return [
-            'team_id'       => (string) $this->teamId,
+            'team_id'       => (string)$this->teamId,
             'email_address' => $this->emailAddress,
             'first_name'    => $this->firstName,
             'last_name'     => $this->lastName,

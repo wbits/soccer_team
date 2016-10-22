@@ -27,7 +27,8 @@
     "broadway/broadway": "^0.9.0",
     "elasticsearch/elasticsearch": "^2.2",
     "qandidate/stack-request-id": "^0.4.0",
-    "matthiasnoback/broadway-serialization": "^1.1"
+    "matthiasnoback/broadway-serialization": "^1.1",
+    "jms/serializer-bundle": "^1.1"
   },
   "require-dev": {
     "phpspec/phpspec": "^3.1",

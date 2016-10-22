@@ -2,10 +2,12 @@
 
 namespace Wbits\SoccerTeam\Team\Event;
 
+use Broadway\Serializer\SerializableInterface;
 use Wbits\SoccerTeam\Team\TeamId;
 
-class PlayerLeavesTheTeam extends AbstractTeamEvent
+class PlayerLeavesTheTeam implements SerializableInterface
 {
+    private $teamId;
     private $emailAddress;
 
     /**
@@ -14,14 +16,22 @@ class PlayerLeavesTheTeam extends AbstractTeamEvent
      */
     public function __construct(TeamId $teamId, string $emailAddress)
     {
-        parent::__construct($teamId);
+        $this->teamId       = $teamId;
         $this->emailAddress = $emailAddress;
+    }
+
+    /**
+     * @return TeamId
+     */
+    public function getTeamId(): TeamId
+    {
+        return $this->teamId;
     }
 
     /**
      * @return string
      */
-    public function getEmailAddress()
+    public function getEmailAddress(): string
     {
         return $this->emailAddress;
     }
@@ -31,12 +41,11 @@ class PlayerLeavesTheTeam extends AbstractTeamEvent
      */
     public function serialize(): array
     {
-        return array_merge(
-            parent::serialize(),
-            [
-                'email_address' => $this->emailAddress,
-            ]
-        );
+        return [
+            'team_id'       => (string)$this->teamId,
+            'email_address' => $this->emailAddress,
+        ];
+
     }
 
     /**

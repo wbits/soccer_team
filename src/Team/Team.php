@@ -4,14 +4,14 @@ namespace Wbits\SoccerTeam\Team;
 
 use Broadway\EventSourcing\EventSourcedAggregateRoot;
 use Doctrine\Common\Collections\ArrayCollection;
-use Wbits\SoccerTeam\Team\Event\MatchWasScheduled;
-use Wbits\SoccerTeam\Team\Event\PlayerJoinsTheTeam;
-use Wbits\SoccerTeam\Team\Event\PlayerLeavesTheTeam;
-use Wbits\SoccerTeam\Team\Event\TeamWasCreated;
-use Wbits\SoccerTeam\Team\Match\Match;
-use Wbits\SoccerTeam\Team\Match\Opponent;
+use JMS\Serializer\Annotation as Serializer;
+use Wbits\SoccerTeam\Team\Event\{MatchWasScheduled, PlayerJoinsTheTeam, PlayerLeavesTheTeam, TeamWasCreated};
+use Wbits\SoccerTeam\Team\Match\{Match, Opponent};
 use Wbits\SoccerTeam\Team\Player\Player;
 
+/**
+ * @Serializer\ExclusionPolicy("none")
+ */
 class Team extends EventSourcedAggregateRoot
 {
     /**
@@ -46,9 +46,7 @@ class Team extends EventSourcedAggregateRoot
     {
         $team = new self();
 
-        $team->apply(
-            new TeamWasCreated($teamId, $club, $teamName, $season)
-        );
+        $team->apply(new TeamWasCreated($teamId, $club, $teamName, $season));
 
         return $team;
     }
@@ -86,7 +84,12 @@ class Team extends EventSourcedAggregateRoot
             );
         }
 
-        $this->apply(new PlayerJoinsTheTeam($this->teamId, $emailAddress, $firstName, $lastName));
+        $this->apply(new PlayerJoinsTheTeam(
+            $this->teamId,
+            $emailAddress,
+            $firstName,
+            $lastName
+        ));
     }
 
     /**
@@ -149,6 +152,8 @@ class Team extends EventSourcedAggregateRoot
             $event->getMatchId(),
             new Match($event->getMatchId(), $event->getOpponent(), $event->getKickOff())
         );
+
+        $this->setUpcomingMatch();
     }
 
     /**
@@ -156,15 +161,65 @@ class Team extends EventSourcedAggregateRoot
      */
     public function getChildEntities(): array
     {
-        return [
-            'players' => $this->players ? $this->players->toArray(): [],
-            'matches' => $this->matches ? $this->matches->toArray(): [],
-        ];
+        $players = $this->players ? $this->players->toArray(): [];
+        $matches = $this->matches ? $this->matches->toArray(): [];
+
+        return $players + $matches;
     }
 
     public function getAggregateRootId()
     {
         return $this->teamId;
+    }
+
+    private function setUpcomingMatch()
+    {
+        /** @var Match $match */
+        $match = $this->findUpComingMatch(new \DateTime());
+
+        if (is_null($match)) {
+            return;
+        }
+
+        $match->setUpcoming(true);
+    }
+
+    /**
+     * @param \DateTime $now
+     *
+     * @return Match|null
+     */
+    private function findUpComingMatch(\DateTime $now)
+    {
+        foreach ($this->matches as $match) {
+            $match->setUpcoming(false);
+        }
+
+        return array_reduce(
+            $this->matches->toArray(),
+            self::getUpcomingMatchCallback($now)
+        );
+    }
+
+    /**
+     * @param \DateTime $now
+     *
+     * @return \Closure
+     */
+    private static function getUpcomingMatchCallback(\DateTime $now): \Closure
+    {
+        return function ($previous, Match $current) use ($now) {
+
+            if ($current->getKickOff() < $now) { // game is done
+                return $previous;
+            }
+
+            if (! $previous instanceof Match) {
+                return $current;
+            }
+
+            return $current->getKickOff() < $previous->getKickOff() ? $current : $previous;
+        };
     }
 
     /**

@@ -2,6 +2,7 @@
 
 use Broadway\Bundle\BroadwayBundle\BroadwayBundle;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
+use JMS\SerializerBundle\JMSSerializerBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
@@ -19,6 +20,7 @@ class AppKernel extends Kernel
             new SoccerTeamBundle(),
             new FrameworkBundle(),
             new DoctrineBundle(),
+            new JMSSerializerBundle(),
         ];
 
         return $bundles;

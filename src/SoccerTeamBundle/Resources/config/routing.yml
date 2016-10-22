@@ -22,8 +22,14 @@ schedule_match:
   defaults:
     _controller: soccer_team.controller.team:scheduleMatchAction
 
-#players_in_the_team:
-#  path: /team/{teamId}/showPlayers
+#view_players:
+#  path: /team/{teamId}/players
 #  methods: [GET]
 #  defaults:
-#    _controller: soccer_team.controller.players_in_the_team:showPlayersAction
+#    _controller: soccer_team.controller.view:playersAction
+
+players_in_the_team:
+  path: /team/{teamId}/showPlayers
+  methods: [GET]
+  defaults:
+    _controller: soccer_team.controller.players_in_the_team:showPlayersAction

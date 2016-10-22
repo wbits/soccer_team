@@ -3,8 +3,12 @@
 namespace Wbits\SoccerTeam\Team;
 
 use Assert\Assertion as Assert;
+use JMS\Serializer\Annotation as Serializer;
 use Wbits\SoccerTeam\Identifier;
 
+/**
+ * @Serializer\ExclusionPolicy("none")
+ */
 final class TeamId implements Identifier
 {
     /**

@@ -14,7 +14,6 @@ return Symfony\CS\Config\Config::create()
         'header_comment',
         'logical_not_operators_with_successor_space',
         'multiline_spaces_before_semicolon',
-        'ordered_use',
         'phpdoc_order',
         'strict',
         'strict_param',

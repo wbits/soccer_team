@@ -17,7 +17,7 @@ class PlayersInTheTeamController
         $this->repository = $repository;
     }
 
-    public function showPlayersAction(Request $request, $teamId)
+    public function showPlayersAction($teamId)
     {
         /** @var PlayerJoinsTheTeam $readModel */
         $readModel = $this->repository->find($teamId);

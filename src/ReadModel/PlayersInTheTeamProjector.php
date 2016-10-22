@@ -1,10 +1,12 @@
-
+<?php
 
 namespace Wbits\SoccerTeam\ReadModel;
 
 use Broadway\ReadModel\Projector;
 use Broadway\ReadModel\RepositoryInterface;
 use Wbits\SoccerTeam\Team\Event\PlayerJoinsTheTeam;
+use Wbits\SoccerTeam\Team\Event\PlayerLeavesTheTeam;
+use Wbits\SoccerTeam\Team\Player\Player;
 
 class PlayersInTheTeamProjector extends Projector
 {
@@ -19,26 +21,36 @@ class PlayersInTheTeamProjector extends Projector
     {
         $readModel = $this->getReadModel((string)$event->getTeamId());
 
-        foreach ($event->getPlayers() as $emailAddress => $player) {
-            $readModel->addPlayer(
-                $emailAddress,
-                sprintf('%s %s', $player->getName()->getFirstName(), $player->getName()->getLastName())
-            );
-        }
+        $readModel->addPlayer(Player::create(
+            $event->getEmailAddress(),
+            $event->getFirstName(),
+            $event->getLastName()
+        ));
 
         $this->repository->save($readModel);
     }
 
-
-    private function getReadModel($emailAddress)
+    protected function applyPlayerLeavesTheTeam(PlayerLeavesTheTeam $event)
     {
-        $readModel = $this->repository->find($emailAddress);
+        $readModel = $this->getReadModel((string)$event->getTeamId());
+        $readModel->removePlayerByEmailAddress($event->getEmailAddress());
 
-            if (null === $readModel) {
-            $readModel = new PlayersInTheTeam($emailAddress);
+        $this->repository->save($readModel);
+    }
+
+    /**
+     * @param string $teamId
+     *
+     * @return \Broadway\ReadModel\ReadModelInterface|null|PlayersInTheTeam
+     */
+    private function getReadModel(string $teamId)
+    {
+        $readModel = $this->repository->find($teamId);
+
+        if (null === $readModel) {
+            $readModel = new PlayersInTheTeam($teamId);
         }
 
         return $readModel;
     }
-
 }
