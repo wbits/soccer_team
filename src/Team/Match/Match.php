@@ -70,7 +70,7 @@ class Match extends EventSourcedEntity
     /**
      * @return Result
      */
-    public function getResult(): Result
+    public function getResult()
     {
         return $this->result;
     }
@@ -80,7 +80,7 @@ class Match extends EventSourcedEntity
      *
      * @return Match
      */
-    public function setResult(Result $result): Match
+    public function setResult(Result $result)
     {
         $this->result = $result;
 

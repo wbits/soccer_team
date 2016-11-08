@@ -5,7 +5,7 @@ namespace Wbits\SoccerTeam\ReadModel;
 use Broadway\ReadModel\ReadModelInterface;
 use Broadway\Serializer\SerializableInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Wbits\SoccerTeam\Factory\MatchFactory;
+use Wbits\SoccerTeam\Serializer\MatchSerializer;
 use Wbits\SoccerTeam\Team\Match\Match;
 
 class Matches implements ReadModelInterface, SerializableInterface
@@ -39,7 +39,7 @@ class Matches implements ReadModelInterface, SerializableInterface
     /**
      * @param Match $match
      */
-    public function addMatch($match)
+    public function addMatch(Match $match)
     {
         $this->matches   = $this->matches ?? new ArrayCollection();
         $this->matches[] = $match;
@@ -52,9 +52,10 @@ class Matches implements ReadModelInterface, SerializableInterface
      */
     public static function deserialize(array $data): Matches
     {
-        $matchList = array_map(function (array $match) {
-            MatchFactory::create($match);
-        }, $data['matches']);
+        $matchList = array_map(
+            [MatchSerializer::class, 'deserialize'],
+            $data['matches']
+        );
 
         $matches = new self($data['teamId']);
         $matches->matches = new ArrayCollection($matchList);
@@ -65,37 +66,14 @@ class Matches implements ReadModelInterface, SerializableInterface
     /**
      * @return array
      */
-    public function serialize()
+    public function serialize(): array
     {
         return [
             'teamId'  => $this->teamId,
-            'matches' => $this->matches ? array_map(self::getSerializationCallback(), $this->matches->toArray()) : [],
+            'matches' => $this->matches ? array_map(
+                [MatchSerializer::class, 'serialize'],
+                $this->matches->toArray()
+            ) : [],
         ];
-    }
-
-    private static function getSerializationCallback()
-    {
-        return function ($match) {
-            if (! $match instanceof Match) {
-                return ['foo' => 'bar'];
-            }
-
-            $opponent = $match->getOpponent();
-            $address  = $opponent->getAddress();
-            return [
-                'match_id' => $match->getMatchId(),
-                'kickoff'  => $match->getKickOff()->format(DATE_ISO8601),
-                'opponent' => [
-                    'club' => $opponent->getClub(),
-                    'team' => $opponent->getTeam(),
-                    'address' => [
-                        'street'       => $address->getStreetName(),
-                        'house_number' => $address->getHouseNumber(),
-                        'postal_code'  => $address->getPostalCode(),
-                        'city'         => $address->getCity(),
-                    ]
-                ]
-            ];
-        };
     }
 }
