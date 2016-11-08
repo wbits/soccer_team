@@ -23,3 +23,14 @@ services:
     arguments: ['@soccer_team.read_model.repository.players_in_the_team']
     tags:
       - { name: broadway.domain.event_listener }
+
+  soccer_team.read_model.repository.matches:
+    class: Broadway\ReadModel\ReadModel
+    factory: ['@broadway.read_model.repository_factory', create]
+    arguments: ['soccer_team.read_model.matches', 'Wbits\SoccerTeam\ReadModel\Matches']
+
+  soccer_team.read_model.projector.matches:
+    class: Wbits\SoccerTeam\ReadModel\MatchesProjector
+    arguments: ['@soccer_team.read_model.repository.matches']
+    tags:
+      - { name: broadway.domain.event_listener }

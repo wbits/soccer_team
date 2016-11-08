@@ -3,10 +3,10 @@ services:
     class: Wbits\SoccerTeam\SoccerTeamBundle\Controller\TeamController
     arguments: ['@broadway.command_handling.command_bus', '@soccer_team.team.command_factory']
 
-#  soccer_team.controller.view:
-#    class: Wbits\SoccerTeam\SoccerTeamBundle\Controller\ViewController
-#    arguments: ['@soccer_team.team.team_repository', '@jms_serializer']
-
   soccer_team.controller.players_in_the_team:
     class: Wbits\SoccerTeam\SoccerTeamBundle\Controller\PlayersInTheTeamController
     arguments: ['@soccer_team.read_model.repository.players_in_the_team']
+
+  soccer_team.controller.matches:
+    class: Wbits\SoccerTeam\SoccerTeamBundle\Controller\MatchesController
+    arguments: ['@soccer_team.read_model.repository.matches']

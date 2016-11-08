@@ -4,7 +4,7 @@ use Qandidate\Stack\RequestId;
 use Qandidate\Stack\UuidRequestIdGenerator;
 use Symfony\Component\HttpFoundation\Request;
 
-header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Origin: *");
 $loader = require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../app/AppKernel.php';
 $debug       = true;
