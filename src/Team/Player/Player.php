@@ -6,9 +6,6 @@ use Broadway\EventSourcing\EventSourcedEntity;
 use JMS\Serializer\Annotation as Serializer;
 use Wbits\SoccerTeam\Team\Property\{Email, Name};
 
-/**
- * @Serializer\ExclusionPolicy("none")
- */
 class Player extends EventSourcedEntity
 {
     /**

@@ -4,14 +4,11 @@ namespace Wbits\SoccerTeam\Team;
 
 use Broadway\EventSourcing\EventSourcedAggregateRoot;
 use Doctrine\Common\Collections\ArrayCollection;
-use JMS\Serializer\Annotation as Serializer;
 use Wbits\SoccerTeam\Team\Event\{MatchWasScheduled, PlayerJoinsTheTeam, PlayerLeavesTheTeam, TeamWasCreated};
 use Wbits\SoccerTeam\Team\Match\{Match, Opponent};
 use Wbits\SoccerTeam\Team\Player\Player;
+use Wbits\SoccerTeam\Team\Player\PlayerCollection;
 
-/**
- * @Serializer\ExclusionPolicy("none")
- */
 class Team extends EventSourcedAggregateRoot
 {
     /**
@@ -25,7 +22,7 @@ class Team extends EventSourcedAggregateRoot
     private $information;
 
     /**
-     * @var ArrayCollection|Player[]
+     * @var PlayerCollection
      */
     private $players;
 
@@ -73,15 +70,11 @@ class Team extends EventSourcedAggregateRoot
     public function addPlayerToTheTeam(string $emailAddress, string $firstName, string $lastName)
     {
         if ($this->players && $this->players->containsKey($emailAddress)) {
-            throw new \InvalidArgumentException(sprintf('The email address: %s is already in use', $emailAddress));
+            throw new ValidationException(sprintf('email:', $emailAddress));
         }
 
-        $playerExistsFilter = self::getPlayerExistsFilter($firstName, $lastName);
-
-        if ($this->players && $this->players->filter($playerExistsFilter)->count() > 0) {
-            throw new \InvalidArgumentException(
-                sprintf('The combination of first and last name: %s %s is already in use', $firstName, $lastName)
-            );
+        if ($this->players && $this->players->filterByName($firstName, $lastName) > 0) {
+            throw new ValidationException(sprintf('name not unique: %s %s', $firstName, $lastName));
         }
 
         $this->apply(new PlayerJoinsTheTeam(
@@ -103,7 +96,7 @@ class Team extends EventSourcedAggregateRoot
             $event->getLastName()
         );
 
-        $this->players = $this->players ?? new ArrayCollection();
+        $this->players = $this->players ?? new PlayerCollection();
         $this->players->set($event->getEmailAddress(), $player);
     }
 
@@ -219,21 +212,6 @@ class Team extends EventSourcedAggregateRoot
             }
 
             return $current->getKickOff() < $previous->getKickOff() ? $current : $previous;
-        };
-    }
-
-    /**
-     * @param string $firstName
-     * @param string $lastName
-     *
-     * @return \Closure
-     */
-    private static function getPlayerExistsFilter(string $firstName, string $lastName): \Closure
-    {
-        return function (Player $player) use ($firstName, $lastName) : bool {
-            $name = $player->getName();
-
-            return $firstName === $name->getFirstName() && $lastName === $name->getLastName();
         };
     }
 }
