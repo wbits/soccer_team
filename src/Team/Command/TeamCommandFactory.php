@@ -4,6 +4,7 @@ namespace Wbits\SoccerTeam\Team\Command;
 
 use Assert\Assertion as Assert;
 use Broadway\UuidGenerator\UuidGeneratorInterface;
+use Wbits\SoccerTeam\Serializer\PlayerSerializer;
 use Wbits\SoccerTeam\Team\Player\Player;
 use Wbits\SoccerTeam\Team\Property\Address;
 use Wbits\SoccerTeam\Team\Match\Opponent;
@@ -54,12 +55,7 @@ class TeamCommandFactory
         Assert::keyIsset($params, 'nickname');
 
         $teamId = new TeamId($teamId);
-        $player = new Player(
-            new Email($params['email']),
-            new Nickname($params['nickname'])
-        );
-
-        return new AddPlayer($teamId, $player);
+        return new AddPlayer($teamId, PlayerSerializer::deserialize($params));
     }
 
     /**
