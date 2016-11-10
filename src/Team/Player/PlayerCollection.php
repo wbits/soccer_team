@@ -27,7 +27,7 @@ class PlayerCollection extends ArrayCollection
     {
         return function (Player $player) use ($firstName, $lastName): bool {
             $name = $player->getName();
-            return $firstName === $name->getFirstName() && $lastName === $name->getLastName();
+            return $firstName === $name->getNickname() && $lastName === $name->getLastName();
         };
     }
 }

@@ -4,12 +4,12 @@ namespace Wbits\SoccerTeam\Team\Player;
 
 use Broadway\EventSourcing\EventSourcedEntity;
 use JMS\Serializer\Annotation as Serializer;
-use Wbits\SoccerTeam\Team\Property\{Email, Name};
+use Wbits\SoccerTeam\Team\Property\{Email, Nickname};
 
 class Player extends EventSourcedEntity
 {
     /**
-     * @var Name
+     * @var Nickname
      */
     private $name;
 
@@ -20,9 +20,9 @@ class Player extends EventSourcedEntity
 
     /**
      * @param Email $email
-     * @param Name  $name
+     * @param Nickname  $name
      */
-    public function __construct(Email $email, Name $name)
+    public function __construct(Email $email, Nickname $name)
     {
         $this->email = $email;
         $this->name  = $name;
@@ -37,9 +37,9 @@ class Player extends EventSourcedEntity
     }
 
     /**
-     * @return Name
+     * @return Nickname
      */
-    public function getName(): Name
+    public function getName(): Nickname
     {
         return $this->name;
     }
@@ -54,7 +54,7 @@ class Player extends EventSourcedEntity
     public static function create(string $emailAddress, string $firstName, string $lastName): Player
     {
         $email = new Email($emailAddress);
-        $name  = new Name($firstName, $lastName);
+        $name  = new Nickname($firstName, $lastName);
 
         return new self($email, $name);
     }

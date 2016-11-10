@@ -4,6 +4,7 @@ namespace Wbits\SoccerTeam\Team;
 
 use Broadway\EventSourcing\EventSourcedAggregateRoot;
 use Doctrine\Common\Collections\ArrayCollection;
+use Wbits\SoccerTeam\Exception\ValidationException;
 use Wbits\SoccerTeam\Team\Event\{MatchWasScheduled, PlayerJoinsTheTeam, PlayerLeavesTheTeam, TeamWasCreated};
 use Wbits\SoccerTeam\Team\Match\{Match, Opponent};
 use Wbits\SoccerTeam\Team\Player\Player;
@@ -66,6 +67,8 @@ class Team extends EventSourcedAggregateRoot
      * @param string $emailAddress
      * @param string $firstName
      * @param string $lastName
+     *
+     * @throws ValidationException
      */
     public function addPlayerToTheTeam(string $emailAddress, string $firstName, string $lastName)
     {

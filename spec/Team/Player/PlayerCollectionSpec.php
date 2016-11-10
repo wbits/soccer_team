@@ -5,7 +5,7 @@ namespace spec\Wbits\SoccerTeam\Team\Player;
 use Wbits\SoccerTeam\Team\Player\Player;
 use Wbits\SoccerTeam\Team\Player\PlayerCollection;
 use PhpSpec\ObjectBehavior;
-use Wbits\SoccerTeam\Team\Property\Name;
+use Wbits\SoccerTeam\Team\Property\Nickname;
 
 class PlayerCollectionSpec extends ObjectBehavior
 {
@@ -16,8 +16,8 @@ class PlayerCollectionSpec extends ObjectBehavior
 
     function it_should_filter_by_name(Player $one, Player $two)
     {
-        $nameOne = new Name('foo', 'bar');
-        $nameTwo = new Name('zoo', 'baz');
+        $nameOne = new Nickname('foo', 'bar');
+        $nameTwo = new Nickname('zoo', 'baz');
 
         $one->getName()->willReturn($nameOne);
         $two->getName()->willReturn($nameTwo);
