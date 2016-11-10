@@ -56,10 +56,9 @@ class TeamController
         $command = $this->dispatchCommand('createAddPlayerCommand', [$params, $teamId]);
 
         return new JsonResponse([
-            'team_id'    => (string) $command->getTeamId(),
-            'first_name' => $command->getFirstName(),
-            'last_name'  => $command->getLastName(),
-            'email'      => $command->getEmailAddress(),
+            'team_id'  => (string) $command->getTeamId(),
+            'nickname' => $command->getNickname(),
+            'email'    => $command->getEmailAddress(),
         ]);
     }
 

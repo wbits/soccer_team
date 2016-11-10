@@ -75,7 +75,7 @@ class Team extends EventSourcedAggregateRoot
             throw new ValidationException(sprintf('email exists:', $emailAddress));
         }
 
-        if ($this->players && $this->players->filterByName($nickname) > 0) {
+        if ($this->players && ($this->players->filterByName($nickname)->count() > 0)) {
             throw new ValidationException(sprintf('name not unique: %s', $nickname));
         }
 
