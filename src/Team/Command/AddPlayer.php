@@ -2,24 +2,29 @@
 
 namespace Wbits\SoccerTeam\Team\Command;
 
+use Wbits\SoccerTeam\Team\Player\Player;
 use Wbits\SoccerTeam\Team\TeamId;
 
 class AddPlayer
 {
+    /**
+     * @var TeamId
+     */
     private $teamId;
-    private $emailAddress;
-    private $nickname;
+
+    /**
+     * @var Player
+     */
+    private $player;
 
     /**
      * @param TeamId $teamId
-     * @param string $emailAddress
-     * @param string $nickname
+     * @param Player $player
      */
-    public function __construct(TeamId $teamId, string $emailAddress, string $nickname)
+    public function __construct(TeamId $teamId, Player $player)
     {
-        $this->teamId       = $teamId;
-        $this->emailAddress = $emailAddress;
-        $this->nickname     = $nickname;
+        $this->teamId = $teamId;
+        $this->player = $player;
     }
 
     /**
@@ -31,18 +36,10 @@ class AddPlayer
     }
 
     /**
-     * @return string
+     * @return Player
      */
-    public function getEmailAddress(): string
+    public function getPlayer(): Player
     {
-        return $this->emailAddress;
-    }
-
-    /**
-     * @return string
-     */
-    public function getNickname(): string
-    {
-        return $this->nickname;
+        return $this->player;
     }
 }
