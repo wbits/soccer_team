@@ -36,9 +36,9 @@ class TeamController
 
         return new JsonResponse([
             'team_id' => (string) $command->getTeamId(),
-            'club'    => $command->getClub(),
-            'team'    => $command->getTeam(),
-            'season'  => $command->getSeason(),
+            'club'    => $command->getInformation()->getClub(),
+            'team'    => $command->getInformation()->getTeam(),
+            'season'  => $command->getInformation()->getSeason(),
         ]);
     }
 

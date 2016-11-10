@@ -5,9 +5,6 @@ namespace Wbits\SoccerTeam\Team;
 use Assert\Assertion as Assert;
 use JMS\Serializer\Annotation as Serializer;
 
-/**
- * @Serializer\ExclusionPolicy("none")
- */
 final class TeamInformation
 {
     /**

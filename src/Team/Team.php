@@ -34,17 +34,15 @@ class Team extends EventSourcedAggregateRoot
 
     /**
      * @param TeamId $teamId
-     * @param string $club
-     * @param string $teamName
-     * @param string $season
+     * @param TeamInformation $information
      *
      * @return Team
      */
-    public static function create(TeamId $teamId, string $club, string $teamName, string $season)
+    public static function create(TeamId $teamId, TeamInformation $information)
     {
         $team = new self();
 
-        $team->apply(new TeamWasCreated($teamId, $club, $teamName, $season));
+        $team->apply(new TeamWasCreated($teamId, $information));
 
         return $team;
     }
@@ -54,13 +52,8 @@ class Team extends EventSourcedAggregateRoot
      */
     public function applyTeamWasCreated(TeamWasCreated $event)
     {
-        $this->teamId = $event->getTeamId();
-
-        $this->information = new TeamInformation(
-            $event->getClub(),
-            $event->getTeam(),
-            $event->getSeason()
-        );
+        $this->teamId      = $event->getTeamId();
+        $this->information = $event->getInformation();
     }
 
     /**
@@ -70,11 +63,14 @@ class Team extends EventSourcedAggregateRoot
      */
     public function addPlayerToTheTeam(Player $player)
     {
-        if ($this->players) {
-            $this->players->validateNewPlayer($player);
-        }
+        $this->getPlayerCollection()->validateNewPlayer($player);
 
-        $this->apply(new PlayerJoinsTheTeam($this->teamId, $player));
+        $this->apply(
+            new PlayerJoinsTheTeam(
+                $this->teamId,
+                $player
+            )
+        );
     }
 
     /**
@@ -83,9 +79,9 @@ class Team extends EventSourcedAggregateRoot
     public function applyPlayerJoinsTheTeam(PlayerJoinsTheTeam $event)
     {
         $player = $event->getPlayer();
+        $email  = (string) $player->getEmail();
 
-        $this->players = $this->players ?? new PlayerCollection();
-        $this->players->set((string) $player->getEmail(), $player);
+        $this->getPlayerCollection()->set($email, $player);
     }
 
     /**
@@ -151,6 +147,11 @@ class Team extends EventSourcedAggregateRoot
     public function getAggregateRootId()
     {
         return $this->teamId;
+    }
+
+    private function getPlayerCollection(): PlayerCollection
+    {
+        return $this->players ?? new PlayerCollection();
     }
 
     private function setUpcomingMatch()

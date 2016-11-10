@@ -25,9 +25,7 @@ class TeamCommandHandler extends CommandHandler
     {
         $team = Team::create(
             $command->getTeamId(),
-            $command->getClub(),
-            $command->getTeam(),
-            $command->getSeason()
+            $command->getInformation()
         );
 
         $this->repository->save($team);
