@@ -20,11 +20,7 @@ class PlayersInTheTeamProjector extends Projector
     protected function applyPlayerJoinsTheTeam(PlayerJoinsTheTeam $event)
     {
         $readModel = $this->getReadModel((string)$event->getTeamId());
-
-        $readModel->addPlayer(Player::create(
-            $event->getEmailAddress(),
-            $event->getNickname()
-        ));
+        $readModel->addPlayer($event->getPlayer());
 
         $this->repository->save($readModel);
     }

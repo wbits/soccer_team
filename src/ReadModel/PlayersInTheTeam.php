@@ -4,8 +4,9 @@ namespace Wbits\SoccerTeam\ReadModel;
 
 use Broadway\ReadModel\ReadModelInterface;
 use Broadway\Serializer\SerializableInterface;
-use Doctrine\Common\Collections\ArrayCollection;
+use Wbits\SoccerTeam\Serializer\PlayerSerializer;
 use Wbits\SoccerTeam\Team\Player\Player;
+use Wbits\SoccerTeam\Team\Player\PlayerCollection;
 
 class PlayersInTheTeam implements ReadModelInterface, SerializableInterface
 {
@@ -15,7 +16,7 @@ class PlayersInTheTeam implements ReadModelInterface, SerializableInterface
     private $teamId;
 
     /**
-     * @var ArrayCollection
+     * @var PlayerCollection
      */
     private $players;
 
@@ -40,7 +41,7 @@ class PlayersInTheTeam implements ReadModelInterface, SerializableInterface
      */
     public function addPlayer(Player $player)
     {
-        $this->players   = $this->players ?? new ArrayCollection();
+        $this->players   = $this->players ?? new PlayerCollection();
         $this->players[] = $player;
     }
 
@@ -76,7 +77,7 @@ class PlayersInTheTeam implements ReadModelInterface, SerializableInterface
     public static function deserialize(array $data): PlayersInTheTeam
     {
         $playersInTheTeam = new self($data['teamId']);
-        $playersInTheTeam->players = self::getPlayersDeserialize($data['players']);
+        $playersInTheTeam->players = self::getPlayersDeserialized($data['players']);
 
         return $playersInTheTeam;
     }
@@ -95,17 +96,17 @@ class PlayersInTheTeam implements ReadModelInterface, SerializableInterface
     /**
      * @param array $players
      *
-     * @return ArrayCollection
+     * @return PlayerCollection
      */
-    private static function getPlayersDeserialize(array $players): ArrayCollection
+    private static function getPlayersDeserialized(array $players): PlayerCollection
     {
         $playersDeserialize = [];
 
         if (count($players)) {
-            $playersDeserialize = array_map(self::deserializePlayersCallback(), $players);
+            $playersDeserialize = array_map([PlayerSerializer::class, 'deserialize'], $players);
         }
 
-        return new ArrayCollection($playersDeserialize);
+        return new PlayerCollection($playersDeserialize);
     }
 
     /**
@@ -117,35 +118,6 @@ class PlayersInTheTeam implements ReadModelInterface, SerializableInterface
             return [];
         }
 
-        return array_map(
-            self::serializePlayersCallback(),
-            $this->players->toArray()
-        );
-    }
-
-    /**
-     * @return \Closure
-     */
-    private static function deserializePlayersCallback(): \Closure
-    {
-        return function (array $player) {
-            return Player::create(
-                $player['email_address'],
-                $player['nickname']
-            );
-        };
-    }
-
-    /**
-     * @return \Closure
-     */
-    private static function serializePlayersCallback(): \Closure
-    {
-        return function (Player $player) {
-            return [
-                'email_address' => (string) $player->getEmail(),
-                'nickname'      => (string) $player->getNickname(),
-            ];
-        };
+        return array_map([PlayerSerializer::class, 'serialize'], $this->players->toArray());
     }
 }

@@ -4,6 +4,8 @@ namespace Wbits\SoccerTeam\Serializer;
 
 use Wbits\SoccerTeam\Team\Event\PlayerJoinsTheTeam;
 use Wbits\SoccerTeam\Team\Player\Player;;
+use Wbits\SoccerTeam\Team\Property\Email;
+use Wbits\SoccerTeam\Team\Property\Nickname;
 use Wbits\SoccerTeam\Team\TeamId;
 
 class PlayerJoinsTheTeamSerializer
@@ -16,7 +18,7 @@ class PlayerJoinsTheTeamSerializer
     public static function serialize(PlayerJoinsTheTeam $playerJoinsTheTeam): array
     {
         return [
-            'teamId'        => (string) $playerJoinsTheTeam->getTeamId(),
+            'team_id'        => (string) $playerJoinsTheTeam->getTeamId(),
             'email_address' => (string) $playerJoinsTheTeam->getPlayer()->getEmail(),
             'nickname'      => (string) $playerJoinsTheTeam->getPlayer()->getNickname(),
         ];
@@ -30,8 +32,11 @@ class PlayerJoinsTheTeamSerializer
     public static function deserialize(array $data): PlayerJoinsTheTeam
     {
         return new PlayerJoinsTheTeam(
-            new TeamId($data['teamId']),
-            new Player($data['email_address'], $data['nickname'])
+            new TeamId($data['team_id']),
+            new Player(
+                new Email($data['email_address']),
+                new Nickname($data['nickname'])
+            )
         );
     }
 }

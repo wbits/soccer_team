@@ -51,7 +51,7 @@ class TeamCommandFactory
      */
     public function createAddPlayerCommand(array $params, string $teamId): AddPlayer
     {
-        Assert::keyIsset($params, 'email');
+        Assert::keyIsset($params, 'email_address');
         Assert::keyIsset($params, 'nickname');
 
         $teamId = new TeamId($teamId);

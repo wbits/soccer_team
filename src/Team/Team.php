@@ -82,13 +82,10 @@ class Team extends EventSourcedAggregateRoot
      */
     public function applyPlayerJoinsTheTeam(PlayerJoinsTheTeam $event)
     {
-        $player = Player::create(
-            $event->getEmailAddress(),
-            $event->getNickname()
-        );
+        $player = $event->getPlayer();
 
         $this->players = $this->players ?? new PlayerCollection();
-        $this->players->set($event->getEmailAddress(), $player);
+        $this->players->set((string) $player->getEmail(), $player);
     }
 
     /**

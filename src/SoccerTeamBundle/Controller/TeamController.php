@@ -57,8 +57,8 @@ class TeamController
 
         return new JsonResponse([
             'team_id'  => (string) $command->getTeamId(),
-            'nickname' => $command->getNickname(),
-            'email'    => $command->getEmailAddress(),
+            'nickname' => (string) $command->getPlayer()->getNickname(),
+            'email'    => (string) $command->getPlayer()->getEmail(),
         ]);
     }
 
