@@ -23,8 +23,7 @@ class PlayersInTheTeamProjector extends Projector
 
         $readModel->addPlayer(Player::create(
             $event->getEmailAddress(),
-            $event->getNickname(),
-            $event->getLastName()
+            $event->getNickname()
         ));
 
         $this->repository->save($readModel);
