@@ -7,27 +7,24 @@ use Doctrine\Common\Collections\ArrayCollection;
 class PlayerCollection extends ArrayCollection
 {
     /**
-     * @param string $firstName
-     * @param string $lastName
+     * @param string $nickname
      *
      * @return PlayerCollection
      */
-    public function filterByName(string $firstName, string $lastName): PlayerCollection
+    public function filterByName(string $nickname): PlayerCollection
     {
-        return $this->filter(self::filterByNameCallback($firstName, $lastName));
+        return $this->filter(self::filterByNameCallback($nickname));
     }
 
     /**
-     * @param string $firstName
-     * @param string $lastName
+     * @param string $nickname
      *
      * @return callable
      */
-    private static function filterByNameCallback(string $firstName, string $lastName): callable
+    private static function filterByNameCallback(string $nickname): callable
     {
-        return function (Player $player) use ($firstName, $lastName): bool {
-            $name = $player->getNickname();
-            return $firstName === $name->getNickname() && $lastName === $name->getLastName();
+        return function (Player $player) use ($nickname): bool {
+            return $nickname === (string) $player->getNickname();
         };
     }
 }

@@ -12,21 +12,18 @@ class PlayerJoinsTheTeam implements SerializableInterface
      */
     private $teamId;
     private $emailAddress;
-    private $firstName;
-    private $lastName;
+    private $nickname;
 
     /**
      * @param TeamId $teamId
      * @param string $emailAddress
-     * @param string $firstName
-     * @param string $lastName
+     * @param string $nickname
      */
-    public function __construct(TeamId $teamId, string $emailAddress, string $firstName, string $lastName)
+    public function __construct(TeamId $teamId, string $emailAddress, string $nickname)
     {
         $this->teamId       = $teamId;
         $this->emailAddress = $emailAddress;
-        $this->firstName    = $firstName;
-        $this->lastName     = $lastName;
+        $this->nickname     = $nickname;
     }
 
     /**
@@ -48,17 +45,9 @@ class PlayerJoinsTheTeam implements SerializableInterface
     /**
      * @return string
      */
-    public function getFirstName(): string
+    public function getNickname(): string
     {
-        return $this->firstName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLastName(): string
-    {
-        return $this->lastName;
+        return $this->nickname;
     }
 
     /**
@@ -71,8 +60,7 @@ class PlayerJoinsTheTeam implements SerializableInterface
         return new self(
             new TeamId($data['team_id']),
             $data['email_address'],
-            $data['first_name'],
-            $data['last_name']
+            $data['nickname']
         );
     }
 
@@ -84,8 +72,7 @@ class PlayerJoinsTheTeam implements SerializableInterface
         return [
             'team_id'       => (string)$this->teamId,
             'email_address' => $this->emailAddress,
-            'first_name'    => $this->firstName,
-            'last_name'     => $this->lastName,
+            'nickname'      => $this->nickname,
         ];
     }
 }
