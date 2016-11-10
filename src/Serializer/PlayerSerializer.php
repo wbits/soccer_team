@@ -2,6 +2,7 @@
 
 namespace Wbits\SoccerTeam\Serializer;
 
+use Assert\Assertion as Assert;
 use Wbits\SoccerTeam\Team\Player\Player;
 use Wbits\SoccerTeam\Team\Property\Email;
 use Wbits\SoccerTeam\Team\Property\Nickname;
@@ -28,6 +29,9 @@ class PlayerSerializer
      */
     public static function deserialize(array $data): Player
     {
+        Assert::keyIsset($data, 'email_address');
+        Assert::keyIsset($data, 'nickname');
+
         return new Player(
             new Email($data['email_address']),
             new Nickname($data['nickname'])

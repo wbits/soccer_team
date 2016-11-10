@@ -51,11 +51,10 @@ class TeamCommandFactory
      */
     public function createAddPlayerCommand(array $params, string $teamId): AddPlayer
     {
-        Assert::keyIsset($params, 'email_address');
-        Assert::keyIsset($params, 'nickname');
-
-        $teamId = new TeamId($teamId);
-        return new AddPlayer($teamId, PlayerSerializer::deserialize($params));
+        return new AddPlayer(
+            new TeamId($teamId),
+            PlayerSerializer::deserialize($params)
+        );
     }
 
     /**
