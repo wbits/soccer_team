@@ -138,7 +138,7 @@ class Team extends EventSourcedAggregateRoot
      */
     public function getChildEntities(): array
     {
-        $players = $this->players ? $this->players->toArray(): [];
+        $players = $this->getPlayerCollection()->toArray();
         $matches = $this->matches ? $this->matches->toArray(): [];
 
         return $players + $matches;
