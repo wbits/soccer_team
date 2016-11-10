@@ -64,26 +64,17 @@ class Team extends EventSourcedAggregateRoot
     }
 
     /**
-     * @param string $emailAddress
-     * @param string $nickname
+     * @param Player $player
      *
      * @throws ValidationException
      */
-    public function addPlayerToTheTeam(string $emailAddress, string $nickname)
+    public function addPlayerToTheTeam(Player $player)
     {
-        if ($this->players && $this->players->containsKey($emailAddress)) {
-            throw new ValidationException(sprintf('email exists:', $emailAddress));
+        if ($this->players) {
+            $this->players->validateNewPlayer($player);
         }
 
-        if ($this->players && ($this->players->filterByName($nickname)->count() > 0)) {
-            throw new ValidationException(sprintf('name not unique: %s', $nickname));
-        }
-
-        $this->apply(new PlayerJoinsTheTeam(
-            $this->teamId,
-            $emailAddress,
-            $nickname
-        ));
+        $this->apply(new PlayerJoinsTheTeam($this->teamId, $player));
     }
 
     /**

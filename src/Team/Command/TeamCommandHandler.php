@@ -39,11 +39,7 @@ class TeamCommandHandler extends CommandHandler
     public function handleAddPlayer(AddPlayer $command)
     {
         $team = $this->loadTeam($command->getTeamId());
-
-        $team->addPlayerToTheTeam(
-            $command->getEmailAddress(),
-            $command->getNickname()
-        );
+        $team->addPlayerToTheTeam($command->getPlayer());
 
         $this->repository->save($team);
     }

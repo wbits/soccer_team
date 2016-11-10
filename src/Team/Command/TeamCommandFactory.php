@@ -52,7 +52,6 @@ class TeamCommandFactory
     {
         Assert::keyIsset($params, 'email');
         Assert::keyIsset($params, 'nickname');
-        Assert::email($params['email']);
 
         $teamId = new TeamId($teamId);
         $player = new Player(
