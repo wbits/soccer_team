@@ -42,7 +42,7 @@ class TeamCommandHandler extends CommandHandler
 
         $team->addPlayerToTheTeam(
             $command->getEmailAddress(),
-            $command->getFirstName(),
+            $command->getNickname(),
             $command->getLastName()
         );
 
