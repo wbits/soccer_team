@@ -42,8 +42,7 @@ class TeamCommandHandler extends CommandHandler
 
         $team->addPlayerToTheTeam(
             $command->getEmailAddress(),
-            $command->getNickname(),
-            $command->getLastName()
+            $command->getNickname()
         );
 
         $this->repository->save($team);
