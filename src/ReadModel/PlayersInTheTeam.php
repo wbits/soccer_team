@@ -145,8 +145,8 @@ class PlayersInTheTeam implements ReadModelInterface, SerializableInterface
         return function (Player $player) {
             return [
                 'email_address' => (string) $player->getEmail(),
-                'first_name'    => $player->getName()->getNickname(),
-                'last_name'     => $player->getName()->getLastName(),
+                'first_name'    => $player->getNickname()->getNickname(),
+                'last_name'     => $player->getNickname()->getLastName(),
             ];
         };
     }

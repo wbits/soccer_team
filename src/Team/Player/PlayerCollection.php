@@ -26,7 +26,7 @@ class PlayerCollection extends ArrayCollection
     private static function filterByNameCallback(string $firstName, string $lastName): callable
     {
         return function (Player $player) use ($firstName, $lastName): bool {
-            $name = $player->getName();
+            $name = $player->getNickname();
             return $firstName === $name->getNickname() && $lastName === $name->getLastName();
         };
     }

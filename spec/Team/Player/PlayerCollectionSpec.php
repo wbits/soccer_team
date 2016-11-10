@@ -19,8 +19,8 @@ class PlayerCollectionSpec extends ObjectBehavior
         $nameOne = new Nickname('foo', 'bar');
         $nameTwo = new Nickname('zoo', 'baz');
 
-        $one->getName()->willReturn($nameOne);
-        $two->getName()->willReturn($nameTwo);
+        $one->getNickname()->willReturn($nameOne);
+        $two->getNickname()->willReturn($nameTwo);
 
         $this->add($one);
         $this->add($two);

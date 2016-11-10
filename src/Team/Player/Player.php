@@ -11,7 +11,7 @@ class Player extends EventSourcedEntity
     /**
      * @var Nickname
      */
-    private $name;
+    private $nickname;
 
     /**
      * @var Email
@@ -20,12 +20,12 @@ class Player extends EventSourcedEntity
 
     /**
      * @param Email $email
-     * @param Nickname  $name
+     * @param Nickname $name
      */
     public function __construct(Email $email, Nickname $name)
     {
-        $this->email = $email;
-        $this->name  = $name;
+        $this->email    = $email;
+        $this->nickname = $name;
     }
 
     /**
@@ -39,22 +39,20 @@ class Player extends EventSourcedEntity
     /**
      * @return Nickname
      */
-    public function getName(): Nickname
+    public function getNickname(): Nickname
     {
-        return $this->name;
+        return $this->nickname;
     }
 
     /**
      * @param string $emailAddress
-     * @param string $firstName
-     * @param string $lastName
-     *
+     * @param string $nickname
      * @return Player
      */
-    public static function create(string $emailAddress, string $firstName, string $lastName): Player
+    public static function create(string $emailAddress, string $nickname): Player
     {
         $email = new Email($emailAddress);
-        $name  = new Nickname($firstName, $lastName);
+        $name  = new Nickname($nickname);
 
         return new self($email, $name);
     }
