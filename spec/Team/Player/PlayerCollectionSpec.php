@@ -16,8 +16,8 @@ class PlayerCollectionSpec extends ObjectBehavior
 
     function it_should_filter_by_name(Player $one, Player $two)
     {
-        $nameOne = new Nickname('foo', 'bar');
-        $nameTwo = new Nickname('zoo', 'baz');
+        $nameOne = new Nickname('foo');
+        $nameTwo = new Nickname('zoo');
 
         $one->getNickname()->willReturn($nameOne);
         $two->getNickname()->willReturn($nameTwo);
@@ -25,7 +25,7 @@ class PlayerCollectionSpec extends ObjectBehavior
         $this->add($one);
         $this->add($two);
 
-        $result = $this->filterByName('foo', 'bar');
+        $result = $this->filterByNickname('foo');
         $result->count()->shouldEqual(1);
         $result->first()->shouldEqual($one);
     }
