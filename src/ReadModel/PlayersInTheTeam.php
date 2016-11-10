@@ -131,8 +131,7 @@ class PlayersInTheTeam implements ReadModelInterface, SerializableInterface
         return function (array $player) {
             return Player::create(
                 $player['email_address'],
-                $player['first_name'],
-                $player['last_name']
+                $player['nickname']
             );
         };
     }
@@ -145,8 +144,7 @@ class PlayersInTheTeam implements ReadModelInterface, SerializableInterface
         return function (Player $player) {
             return [
                 'email_address' => (string) $player->getEmail(),
-                'first_name'    => $player->getNickname()->getNickname(),
-                'last_name'     => $player->getNickname()->getLastName(),
+                'nickname'      => (string) $player->getNickname(),
             ];
         };
     }
