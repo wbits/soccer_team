@@ -4,8 +4,11 @@ namespace Wbits\SoccerTeam\Team\Command;
 
 use Assert\Assertion as Assert;
 use Broadway\UuidGenerator\UuidGeneratorInterface;
+use Wbits\SoccerTeam\Team\Player\Player;
 use Wbits\SoccerTeam\Team\Property\Address;
 use Wbits\SoccerTeam\Team\Match\Opponent;
+use Wbits\SoccerTeam\Team\Property\Email;
+use Wbits\SoccerTeam\Team\Property\Nickname;
 use Wbits\SoccerTeam\Team\TeamId;
 
 class TeamCommandFactory
@@ -49,10 +52,15 @@ class TeamCommandFactory
     {
         Assert::keyIsset($params, 'email');
         Assert::keyIsset($params, 'nickname');
+        Assert::email($params['email']);
 
         $teamId = new TeamId($teamId);
+        $player = new Player(
+            new Email($params['email']),
+            new Nickname($params['nickname'])
+        );
 
-        return new AddPlayer($teamId, $params['email'], $params['nickname']);
+        return new AddPlayer($teamId, $player);
     }
 
     /**
