@@ -43,17 +43,4 @@ class Player extends EventSourcedEntity
     {
         return $this->nickname;
     }
-
-    /**
-     * @param string $emailAddress
-     * @param string $nickname
-     * @return Player
-     */
-    public static function create(string $emailAddress, string $nickname): Player
-    {
-        $email = new Email($emailAddress);
-        $name  = new Nickname($nickname);
-
-        return new self($email, $name);
-    }
 }

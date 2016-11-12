@@ -85,15 +85,15 @@ class Team extends EventSourcedAggregateRoot
     }
 
     /**
-     * @param string $emailAddress
+     * @param Player $player
      */
-    public function removePlayerFromTheTeam(string $emailAddress)
+    public function removePlayerFromTheTeam(Player $player)
     {
-        if (! $this->players->containsKey($emailAddress)) {
+        if (! $this->players->containsKey((string) $player->getEmail())) {
             return;
         }
 
-        $this->apply(new PlayerLeavesTheTeam($this->teamId, $emailAddress));
+        $this->apply(new PlayerLeavesTheTeam($this->teamId, $player));
     }
 
     /**
@@ -101,7 +101,9 @@ class Team extends EventSourcedAggregateRoot
      */
     public function applyPlayerLeavesTheTeam(PlayerLeavesTheTeam $event)
     {
-        $this->players->remove($event->getEmailAddress());
+        $this->players->remove(
+            (string) $event->getPlayer()->getEmail()
+        );
     }
 
     /**
@@ -151,7 +153,8 @@ class Team extends EventSourcedAggregateRoot
 
     private function getPlayerCollection(): PlayerCollection
     {
-        return $this->players ?? new PlayerCollection();
+        $this->players = $this->players ?? new PlayerCollection();
+        return $this->players;
     }
 
     private function setUpcomingMatch()

@@ -4,11 +4,11 @@ namespace Wbits\SoccerTeam\Team\Event;
 
 use Broadway\Serializer\SerializableInterface;
 use Wbits\SoccerTeam\Serializer\PlayerJoinsTheTeamSerializer;
-use Wbits\SoccerTeam\Team\Command\AddPlayerTrait;
+use Wbits\SoccerTeam\Team\Command\PlayerTrait;
 
 class PlayerJoinsTheTeam implements SerializableInterface
 {
-    use AddPlayerTrait;
+    use PlayerTrait;
 
     /**
      * @param array $data

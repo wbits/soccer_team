@@ -5,7 +5,7 @@ namespace Wbits\SoccerTeam\Team\Command;
 use Wbits\SoccerTeam\Team\Player\Player;
 use Wbits\SoccerTeam\Team\TeamId;
 
-trait AddPlayerTrait
+trait PlayerTrait
 {
     /**
      * @var TeamId

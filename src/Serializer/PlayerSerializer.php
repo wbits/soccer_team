@@ -17,8 +17,8 @@ class PlayerSerializer
     public static function serialize(Player $player): array
     {
         return [
-            'email_address' => (string) $player->getEmail(),
-            'nickname'      => (string) $player->getNickname(),
+            'email'    => (string) $player->getEmail(),
+            'nickname' => (string) $player->getNickname(),
         ];
     }
 
@@ -29,11 +29,11 @@ class PlayerSerializer
      */
     public static function deserialize(array $data): Player
     {
-        Assert::keyIsset($data, 'email_address');
+        Assert::keyIsset($data, 'email');
         Assert::keyIsset($data, 'nickname');
 
         return new Player(
-            new Email($data['email_address']),
+            new Email($data['email']),
             new Nickname($data['nickname'])
         );
     }

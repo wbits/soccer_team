@@ -2,16 +2,16 @@
 
 namespace Wbits\SoccerTeam\Serializer;
 
-use Wbits\SoccerTeam\Team\Event\PlayerJoinsTheTeam;
+use Wbits\SoccerTeam\Team\Event\PlayerLeavesTheTeam;
 use Wbits\SoccerTeam\Team\Player\Player;
 use Wbits\SoccerTeam\Team\Property\Email;
 use Wbits\SoccerTeam\Team\Property\Nickname;
 use Wbits\SoccerTeam\Team\TeamId;
 
-class PlayerJoinsTheTeamSerializer
+class PlayerLeavesTheTeamSerializer
 {
     /**
-     * @param PlayerJoinsTheTeam $event
+     * @param PlayerLeavesTheTeam $event
      *
      * @return array
      */
@@ -27,11 +27,11 @@ class PlayerJoinsTheTeamSerializer
     /**
      * @param array $data
      *
-     * @return PlayerJoinsTheTeam
+     * @return PlayerLeavesTheTeam
      */
-    public static function deserialize(array $data): PlayerJoinsTheTeam
+    public static function deserialize(array $data): PlayerLeavesTheTeam
     {
-        return new PlayerJoinsTheTeam(
+        return new PlayerLeavesTheTeam(
             new TeamId($data['team_id']),
             new Player(
                 new Email($data['email']),
@@ -40,4 +40,3 @@ class PlayerJoinsTheTeamSerializer
         );
     }
 }
-

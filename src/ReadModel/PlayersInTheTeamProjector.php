@@ -28,7 +28,7 @@ class PlayersInTheTeamProjector extends Projector
     protected function applyPlayerLeavesTheTeam(PlayerLeavesTheTeam $event)
     {
         $readModel = $this->getReadModel((string)$event->getTeamId());
-        $readModel->removePlayerByEmailAddress($event->getEmailAddress());
+        $readModel->removePlayer($event->getPlayer());
 
         $this->repository->save($readModel);
     }

@@ -46,27 +46,14 @@ class PlayersInTheTeam implements ReadModelInterface, SerializableInterface
     }
 
     /**
-     * @param string $emailAddress
-     */
-    public function removePlayerByEmailAddress(string $emailAddress)
-    {
-        $player = $this->players->filter(function (Player $player) use ($emailAddress) {
-            return (string)$player->getEmail() === $emailAddress;
-        })->first();
-
-        if (!$player) {
-            return;
-        }
-
-        $this->removePlayer($player);
-    }
-
-    /**
      * @param Player $player
      */
-    private function removePlayer(Player $player)
+    public function removePlayer(Player $player)
     {
-        $this->players->removeElement($player);
+        $filteredPlayers = $this->players->filterByNickname((string) $player->getNickname());
+        $elementToBeRemoved = $filteredPlayers->first();
+
+        $this->players->removeElement($elementToBeRemoved);
     }
 
     /**

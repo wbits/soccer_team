@@ -48,8 +48,7 @@ class TeamCommandHandler extends CommandHandler
     public function handleRemovePlayer(RemovePlayer $command)
     {
         $team = $this->loadTeam($command->getTeamId());
-
-        $team->removePlayerFromTheTeam($command->getEmailAddress());
+        $team->removePlayerFromTheTeam($command->getPlayer());
 
         $this->repository->save($team);
     }

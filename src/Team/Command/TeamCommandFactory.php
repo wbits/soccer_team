@@ -65,11 +65,10 @@ class TeamCommandFactory
      */
     public function createRemovePlayerCommand(array $params, string $teamId): RemovePlayer
     {
-        Assert::keyIsset($params, 'email');
-
-        $teamId = new TeamId($teamId);
-
-        return new RemovePlayer($teamId, $params['email']);
+        return new RemovePlayer(
+            new TeamId($teamId),
+            PlayerSerializer::deserialize($params)
+        );
     }
 
     /**

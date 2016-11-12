@@ -31,7 +31,7 @@ class TeamController
      */
     public function createTeamAction(Request $request): JsonResponse
     {
-        $params  = $this->getParams($request->getContent());
+        $params  = $this->getRequestPayload($request->getContent());
         $command = $this->dispatchCommand('createCreateNewTeamCommand', [$params]);
 
         return new JsonResponse([
@@ -50,16 +50,7 @@ class TeamController
      */
     public function addPlayerAction(Request $request, string $teamId): JsonResponse
     {
-        Assert::uuid($teamId);
-
-        $params  = $this->getParams($request->getContent());
-        $command = $this->dispatchCommand('createAddPlayerCommand', [$params, $teamId]);
-
-        return new JsonResponse([
-            'team_id'  => (string) $command->getTeamId(),
-            'nickname' => (string) $command->getPlayer()->getNickname(),
-            'email'    => (string) $command->getPlayer()->getEmail(),
-        ]);
+        return $this->playerAction($request, $teamId, 'createAddPlayerCommand');
     }
 
     /**
@@ -70,15 +61,7 @@ class TeamController
      */
     public function removePlayerAction(Request $request, string $teamId): JsonResponse
     {
-        Assert::uuid($teamId);
-
-        $params  = $this->getParams($request->getContent());
-        $command = $this->dispatchCommand('createRemovePlayerCommand', [$params, $teamId]);
-
-        return new JsonResponse([
-            'team_id' => (string) $command->getTeamId(),
-            'email'   => $command->getEmailAddress(),
-        ]);
+        return $this->playerAction($request, $teamId, 'createRemovePlayerCommand');
     }
 
     public function appointTrainerAction()
@@ -93,7 +76,7 @@ class TeamController
     {
         Assert::uuid($teamId);
 
-        $params  = $this->getParams($request->getContent());
+        $params  = $this->getRequestPayload($request->getContent());
         $command = $this->dispatchCommand('createScheduleMatchCommand', [$params, $teamId]);
 
         return new JsonResponse([
@@ -105,11 +88,32 @@ class TeamController
     }
 
     /**
+     * @param Request $request
+     * @param string $teamId
+     * @param string $commandFactoryMethod
+     *
+     * @return JsonResponse
+     */
+    private function playerAction(Request $request, string $teamId, string $commandFactoryMethod)
+    {
+        Assert::uuid($teamId);
+
+        $params  = $this->getRequestPayload($request->getContent());
+        $command = $this->dispatchCommand($commandFactoryMethod, [$params, $teamId]);
+
+        return new JsonResponse([
+            'team_id'  => (string) $command->getTeamId(),
+            'nickname' => (string) $command->getPlayer()->getNickname(),
+            'email'    => (string) $command->getPlayer()->getEmail(),
+        ]);
+    }
+
+    /**
      * @param string $payload
      *
      * @return array
      */
-    private function getParams(string $payload): array
+    private function getRequestPayload(string $payload): array
     {
         Assert::isJsonString($payload, 'Post request failed because body contains invalid json');
         Assert::notEmpty($payload, 'Post request failed because post body was empty');
