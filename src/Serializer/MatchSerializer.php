@@ -27,7 +27,7 @@ class MatchSerializer
 
         return [
             'match_id' => $match->getMatchId(),
-            'kickoff'  => $match->getKickOff()->format(DATE_ISO8601),
+            'kickoff'  => $match->getKickoff()->format(DATE_ISO8601),
             'opponent' => [
                 'club'    => $opponent->getClub(),
                 'team'    => $opponent->getTeam(),

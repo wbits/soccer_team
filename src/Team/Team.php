@@ -3,18 +3,18 @@
 namespace Wbits\SoccerTeam\Team;
 
 use Broadway\EventSourcing\EventSourcedAggregateRoot;
-use Wbits\SoccerTeam\SoccerTeamBundle\Exception\ValidationException;
-use Wbits\SoccerTeam\Team\Event\MatchWasScheduled;
-use Wbits\SoccerTeam\Team\Event\PlayerJoinsTheTeam;
-use Wbits\SoccerTeam\Team\Event\PlayerLeavesTheTeam;
 use Wbits\SoccerTeam\Team\Event\TeamWasCreated;
-use Wbits\SoccerTeam\Team\Match\Match;
-use Wbits\SoccerTeam\Team\Match\Season;
 use Wbits\SoccerTeam\Team\Player\Player;
-use Wbits\SoccerTeam\Team\Player\PlayerCollection;
+use Wbits\SoccerTeam\Team\TeamAction\AddRemovePlayerTrait;
+use Wbits\SoccerTeam\Team\TeamAction\MatchActionsTrait;
+use Wbits\SoccerTeam\Team\TeamAction\PlayerActionsTrait;
 
 class Team extends EventSourcedAggregateRoot
 {
+    use AddRemovePlayerTrait;
+    use MatchActionsTrait;
+    use PlayerActionsTrait;
+
     /**
      * @var TeamId
      */
@@ -25,105 +25,9 @@ class Team extends EventSourcedAggregateRoot
      */
     private $information;
 
-    /**
-     * @var PlayerCollection
-     */
-    private $players;
-
-    /**
-     * @var Season
-     */
-    private $season;
-
-    /**
-     * @param TeamId          $teamId
-     * @param TeamInformation $information
-     *
-     * @return Team
-     */
-    public static function create(TeamId $teamId, TeamInformation $information)
+    public function getAggregateRootId()
     {
-        $team = new self();
-
-        $team->apply(new TeamWasCreated($teamId, $information));
-
-        return $team;
-    }
-
-    /**
-     * @param TeamWasCreated $event
-     */
-    public function applyTeamWasCreated(TeamWasCreated $event)
-    {
-        $this->teamId      = $event->getTeamId();
-        $this->information = $event->getInformation();
-    }
-
-    /**
-     * @param Player $player
-     *
-     * @throws ValidationException
-     */
-    public function addPlayerToTheTeam(Player $player)
-    {
-        $this->getPlayerCollection()->validateNewPlayer($player);
-
-        $this->apply(
-            new PlayerJoinsTheTeam(
-                $this->teamId,
-                $player
-            )
-        );
-    }
-
-    /**
-     * @param PlayerJoinsTheTeam $event
-     */
-    public function applyPlayerJoinsTheTeam(PlayerJoinsTheTeam $event)
-    {
-        $this->getPlayerCollection()->addPlayer($event->getPlayer());
-    }
-
-    /**
-     * @param Player $player
-     */
-    public function removePlayerFromTheTeam(Player $player)
-    {
-        if (! $this->players->containsKey((string) $player->getEmail())) {
-            return;
-        }
-
-        $this->apply(new PlayerLeavesTheTeam($this->teamId, $player));
-    }
-
-    /**
-     * @param PlayerLeavesTheTeam $event
-     */
-    public function applyPlayerLeavesTheTeam(PlayerLeavesTheTeam $event)
-    {
-        $this->players->remove(
-            (string) $event->getPlayer()->getEmail()
-        );
-    }
-
-    /**
-     * @param Match $match
-     */
-    public function scheduleMatch(Match $match)
-    {
-        $this->getSeason()->validateScheduledMatch($match);
-
-        $this->apply(new MatchWasScheduled($this->teamId, $match));
-    }
-
-    /**
-     * @param MatchWasScheduled $event
-     */
-    public function applyMatchWasScheduled(MatchWasScheduled $event)
-    {
-        $match = $event->getMatch();
-
-        $this->getSeason()->set($match->getMatchId(), $match);
+        return $this->teamId;
     }
 
     /**
@@ -137,28 +41,28 @@ class Team extends EventSourcedAggregateRoot
         return $players + $matches;
     }
 
-    public function getAggregateRootId()
+    /**
+     * @param TeamId          $teamId
+     * @param TeamInformation $information
+     *
+     * @return Team
+     */
+    public static function create(TeamId $teamId, TeamInformation $information)
     {
-        return $this->teamId;
+        $team = new self();
+
+        $event = new TeamWasCreated($teamId, $information);
+        $team->apply($event);
+
+        return $team;
     }
 
     /**
-     * @return PlayerCollection
+     * @param TeamWasCreated $event
      */
-    private function getPlayerCollection(): PlayerCollection
+    public function applyTeamWasCreated(TeamWasCreated $event)
     {
-        $this->players = $this->players ?? new PlayerCollection();
-
-        return $this->players;
-    }
-
-    /**
-     * @return Season
-     */
-    private function getSeason(): Season
-    {
-        $this->season = $this->season ?? new Season();
-
-        return $this->season;
+        $this->teamId      = $event->getTeamId();
+        $this->information = $event->getInformation();
     }
 }
