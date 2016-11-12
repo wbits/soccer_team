@@ -26,16 +26,16 @@ class Address
 
     /**
      * @param string $streetName
-     * @param int $houseNumber
+     * @param int    $houseNumber
      * @param string $postalCode
      * @param string $city
      */
     public function __construct($streetName, $houseNumber, $postalCode, $city)
     {
-        $this->streetName = $streetName;
+        $this->streetName  = $streetName;
         $this->houseNumber = $houseNumber;
-        $this->postalCode = $postalCode;
-        $this->city = $city;
+        $this->postalCode  = $postalCode;
+        $this->city        = $city;
     }
 
     /**

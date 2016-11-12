@@ -17,7 +17,7 @@ class ExceptionListener
         $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR;
 
         if ($exception instanceof ValidationException) {
-            $message = $exception->hasErrors() ? $exception->getErrors(): $message;
+            $message = $exception->hasErrors() ? $exception->getErrors() : $message;
         }
 
         if ($exception instanceof HttpExceptionInterface) {

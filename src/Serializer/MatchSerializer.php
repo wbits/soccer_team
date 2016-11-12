@@ -14,10 +14,10 @@ class MatchSerializer
         $opponent = $match->getOpponent();
         $address  = $opponent->getAddress();
 
-        $result = $match->getResult();
+        $result           = $match->getResult();
         $serializedResult = [
             'score'  => '',
-            'is_win' => false
+            'is_win' => false,
         ];
 
         if (! is_null($result)) {
@@ -29,17 +29,17 @@ class MatchSerializer
             'match_id' => $match->getMatchId(),
             'kickoff'  => $match->getKickOff()->format(DATE_ISO8601),
             'opponent' => [
-                'club' => $opponent->getClub(),
-                'team' => $opponent->getTeam(),
+                'club'    => $opponent->getClub(),
+                'team'    => $opponent->getTeam(),
                 'address' => [
                     'street'       => $address->getStreetName(),
                     'house_number' => $address->getHouseNumber(),
                     'postal_code'  => $address->getPostalCode(),
                     'city'         => $address->getCity(),
-                ]
+                ],
             ],
             'result'   => $serializedResult,
-            'upcoming' => $match->isUpcoming()
+            'upcoming' => $match->isUpcoming(),
         ];
     }
 

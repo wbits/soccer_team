@@ -53,7 +53,7 @@ class TeamCommandFactory
     }
 
     /**
-     * @param array $params
+     * @param array  $params
      * @param string $teamId
      *
      * @return RemovePlayer
@@ -67,7 +67,7 @@ class TeamCommandFactory
     }
 
     /**
-     * @param array $params
+     * @param array  $params
      * @param string $teamId
      *
      * @return ScheduleMatch

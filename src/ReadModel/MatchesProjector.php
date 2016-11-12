@@ -5,7 +5,6 @@ namespace Wbits\SoccerTeam\ReadModel;
 use Broadway\ReadModel\Projector;
 use Broadway\ReadModel\RepositoryInterface;
 use Wbits\SoccerTeam\Team\Event\MatchWasScheduled;
-use Wbits\SoccerTeam\Team\Match\Match;
 
 class MatchesProjector extends Projector
 {

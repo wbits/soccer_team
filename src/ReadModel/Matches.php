@@ -57,7 +57,7 @@ class Matches implements ReadModelInterface, SerializableInterface
             $data['matches']
         );
 
-        $matches = new self($data['teamId']);
+        $matches          = new self($data['teamId']);
         $matches->matches = new ArrayCollection($matchList);
 
         return $matches;

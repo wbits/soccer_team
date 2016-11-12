@@ -32,8 +32,8 @@ class Match extends EventSourcedEntity
     private $upcoming = false;
 
     /**
-     * @param string $matchId
-     * @param Opponent $opponent
+     * @param string    $matchId
+     * @param Opponent  $opponent
      * @param \DateTime $kickOff
      */
     public function __construct(string $matchId, Opponent $opponent, \DateTime $kickOff)
@@ -88,7 +88,7 @@ class Match extends EventSourcedEntity
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isUpcoming(): bool
     {
@@ -96,7 +96,7 @@ class Match extends EventSourcedEntity
     }
 
     /**
-     * @param boolean $upcoming
+     * @param bool $upcoming
      *
      * @return Match
      */

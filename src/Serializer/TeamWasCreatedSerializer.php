@@ -4,7 +4,6 @@ namespace Wbits\SoccerTeam\Serializer;
 
 use Wbits\SoccerTeam\Team\Event\TeamWasCreated;
 use Wbits\SoccerTeam\Team\TeamId;
-use Wbits\SoccerTeam\Team\TeamInformation;
 
 class TeamWasCreatedSerializer
 {
@@ -12,7 +11,7 @@ class TeamWasCreatedSerializer
     {
         return [
             'team_id'   => (string) $event->getTeamId(),
-            'team_info' => TeamInformationSerializer::serialize($event->getInformation())
+            'team_info' => TeamInformationSerializer::serialize($event->getInformation()),
         ];
     }
 

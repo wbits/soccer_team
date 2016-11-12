@@ -6,7 +6,6 @@ use Broadway\ReadModel\Projector;
 use Broadway\ReadModel\RepositoryInterface;
 use Wbits\SoccerTeam\Team\Event\PlayerJoinsTheTeam;
 use Wbits\SoccerTeam\Team\Event\PlayerLeavesTheTeam;
-use Wbits\SoccerTeam\Team\Player\Player;
 
 class PlayersInTheTeamProjector extends Projector
 {
@@ -19,7 +18,7 @@ class PlayersInTheTeamProjector extends Projector
 
     protected function applyPlayerJoinsTheTeam(PlayerJoinsTheTeam $event)
     {
-        $readModel = $this->getReadModel((string)$event->getTeamId());
+        $readModel = $this->getReadModel((string) $event->getTeamId());
         $readModel->addPlayer($event->getPlayer());
 
         $this->repository->save($readModel);
@@ -27,7 +26,7 @@ class PlayersInTheTeamProjector extends Projector
 
     protected function applyPlayerLeavesTheTeam(PlayerLeavesTheTeam $event)
     {
-        $readModel = $this->getReadModel((string)$event->getTeamId());
+        $readModel = $this->getReadModel((string) $event->getTeamId());
         $readModel->removePlayer($event->getPlayer());
 
         $this->repository->save($readModel);

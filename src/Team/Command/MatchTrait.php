@@ -19,7 +19,7 @@ trait MatchTrait
 
     /**
      * @param TeamId $teamId
-     * @param Match $match
+     * @param Match  $match
      */
     public function __construct(TeamId $teamId, Match $match)
     {

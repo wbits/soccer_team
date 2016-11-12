@@ -3,8 +3,8 @@
 namespace Wbits\SoccerTeam\Team\Player;
 
 use Broadway\EventSourcing\EventSourcedEntity;
-use JMS\Serializer\Annotation as Serializer;
-use Wbits\SoccerTeam\Team\Property\{Email, Nickname};
+use Wbits\SoccerTeam\Team\Property\Email;
+use Wbits\SoccerTeam\Team\Property\Nickname;
 
 class Player extends EventSourcedEntity
 {
@@ -19,7 +19,7 @@ class Player extends EventSourcedEntity
     private $email;
 
     /**
-     * @param Email $email
+     * @param Email    $email
      * @param Nickname $name
      */
     public function __construct(Email $email, Nickname $name)

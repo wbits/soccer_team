@@ -36,6 +36,6 @@ class ValidationException extends UnprocessableEntityHttpException
      */
     public function hasErrors(): bool
     {
-        return !empty($this->errors);
+        return ! empty($this->errors);
     }
 }

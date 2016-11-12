@@ -3,7 +3,6 @@
 namespace Wbits\SoccerTeam\Team;
 
 use Assert\Assertion as Assert;
-use JMS\Serializer\Annotation as Serializer;
 
 final class TeamInformation
 {

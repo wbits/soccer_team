@@ -28,4 +28,3 @@ class MatchesController
         return new JsonResponse($readModel->serialize());
     }
 }
-

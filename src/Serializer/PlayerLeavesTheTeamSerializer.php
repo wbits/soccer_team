@@ -4,8 +4,6 @@ namespace Wbits\SoccerTeam\Serializer;
 
 use Wbits\SoccerTeam\Team\Event\PlayerLeavesTheTeam;
 use Wbits\SoccerTeam\Team\Player\Player;
-use Wbits\SoccerTeam\Team\Property\Email;
-use Wbits\SoccerTeam\Team\Property\Nickname;
 use Wbits\SoccerTeam\Team\TeamId;
 
 class PlayerLeavesTheTeamSerializer

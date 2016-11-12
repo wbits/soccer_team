@@ -9,13 +9,18 @@ use Symfony\Component\HttpFoundation\Request;
 use Wbits\SoccerTeam\Serializer\MatchSerializer;
 use Wbits\SoccerTeam\Serializer\PlayerSerializer;
 use Wbits\SoccerTeam\Serializer\TeamInformationSerializer;
-use Wbits\SoccerTeam\Team\Command\CreateNewTeam;
-use Wbits\SoccerTeam\Team\Command\ScheduleMatch;
 use Wbits\SoccerTeam\Team\Command\TeamCommandFactory;
 
 class TeamController
 {
+    /**
+     * @var CommandBusInterface
+     */
     private $commandBus;
+
+    /**
+     * @var TeamCommandFactory
+     */
     private $commandFactory;
 
     /**
@@ -39,8 +44,8 @@ class TeamController
         $command = $this->dispatchCommand('createCreateNewTeamCommand', [$params]);
 
         return new JsonResponse([
-            'team_id' => (string) $command->getTeamId(),
-            'team_info' => TeamInformationSerializer::serialize($command->getInformation())
+            'team_id'   => (string) $command->getTeamId(),
+            'team_info' => TeamInformationSerializer::serialize($command->getInformation()),
         ]);
     }
 
@@ -68,7 +73,7 @@ class TeamController
 
     /**
      * @param Request $request
-     * @param string $teamId
+     * @param string  $teamId
      *
      * @return JsonResponse
      */
@@ -81,14 +86,14 @@ class TeamController
 
         return new JsonResponse([
             'team_id' => (string) $command->getTeamId(),
-            'match'   => MatchSerializer::serialize($command->getMatch())
+            'match'   => MatchSerializer::serialize($command->getMatch()),
         ]);
     }
 
     /**
      * @param Request $request
-     * @param string $teamId
-     * @param string $commandFactoryMethod
+     * @param string  $teamId
+     * @param string  $commandFactoryMethod
      *
      * @return JsonResponse
      */

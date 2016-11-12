@@ -10,12 +10,13 @@ class PlayerCollection extends ArrayCollection
     /**
      * @param Player $player
      *
-     * @return bool
      * @throws ValidationException
+     *
+     * @return bool
      */
     public function validateNewPlayer(Player $player): bool
     {
-        $errors = [];
+        $errors       = [];
         $emailAddress = (string) $player->getEmail();
         $nickname     = (string) $player->getNickname();
 
@@ -27,7 +28,7 @@ class PlayerCollection extends ArrayCollection
             $errors['nickname'] = sprintf('The nickname: %s is already taken', $nickname);
         }
 
-        if (! empty ($errors)) {
+        if (! empty($errors)) {
             throw (new ValidationException())->setErrors($errors);
         }
 
@@ -36,7 +37,7 @@ class PlayerCollection extends ArrayCollection
 
     public function addPlayer(Player $player)
     {
-        $email  = (string) $player->getEmail();
+        $email = (string) $player->getEmail();
 
         $this->set($email, $player);
     }

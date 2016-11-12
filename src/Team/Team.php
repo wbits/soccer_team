@@ -3,12 +3,13 @@
 namespace Wbits\SoccerTeam\Team;
 
 use Broadway\EventSourcing\EventSourcedAggregateRoot;
-use Doctrine\Common\Collections\ArrayCollection;
 use Wbits\SoccerTeam\SoccerTeamBundle\Exception\ValidationException;
-use Wbits\SoccerTeam\Team\Event\{MatchWasScheduled, PlayerJoinsTheTeam, PlayerLeavesTheTeam, TeamWasCreated};
-use Wbits\SoccerTeam\Team\Match\{
-    Match, Opponent, Season
-};
+use Wbits\SoccerTeam\Team\Event\MatchWasScheduled;
+use Wbits\SoccerTeam\Team\Event\PlayerJoinsTheTeam;
+use Wbits\SoccerTeam\Team\Event\PlayerLeavesTheTeam;
+use Wbits\SoccerTeam\Team\Event\TeamWasCreated;
+use Wbits\SoccerTeam\Team\Match\Match;
+use Wbits\SoccerTeam\Team\Match\Season;
 use Wbits\SoccerTeam\Team\Player\Player;
 use Wbits\SoccerTeam\Team\Player\PlayerCollection;
 
@@ -35,7 +36,7 @@ class Team extends EventSourcedAggregateRoot
     private $season;
 
     /**
-     * @param TeamId $teamId
+     * @param TeamId          $teamId
      * @param TeamInformation $information
      *
      * @return Team
@@ -147,6 +148,7 @@ class Team extends EventSourcedAggregateRoot
     private function getPlayerCollection(): PlayerCollection
     {
         $this->players = $this->players ?? new PlayerCollection();
+
         return $this->players;
     }
 
@@ -156,6 +158,7 @@ class Team extends EventSourcedAggregateRoot
     private function getSeason(): Season
     {
         $this->season = $this->season ?? new Season();
+
         return $this->season;
     }
 }

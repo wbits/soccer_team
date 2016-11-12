@@ -15,7 +15,7 @@ class Result
     private $score;
 
     /**
-     * @param bool $win
+     * @param bool   $win
      * @param string $score
      */
     public function __construct(bool $win, string $score)
@@ -25,7 +25,7 @@ class Result
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isWin(): bool
     {

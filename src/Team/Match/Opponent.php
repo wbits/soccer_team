@@ -23,8 +23,9 @@ class Opponent
 
     /**
      * Opponent constructor.
-     * @param string $club
-     * @param string $team
+     *
+     * @param string  $club
+     * @param string  $team
      * @param Address $address
      */
     public function __construct(string $club, string $team, Address $address)

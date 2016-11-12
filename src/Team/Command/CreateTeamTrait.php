@@ -18,7 +18,7 @@ trait CreateTeamTrait
     private $information;
 
     /**
-     * @param TeamId $teamId
+     * @param TeamId          $teamId
      * @param TeamInformation $information
      */
     public function __construct(TeamId $teamId, TeamInformation $information)

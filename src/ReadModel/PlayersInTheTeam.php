@@ -50,7 +50,7 @@ class PlayersInTheTeam implements ReadModelInterface, SerializableInterface
      */
     public function removePlayer(Player $player)
     {
-        $filteredPlayers = $this->players->filterByNickname((string) $player->getNickname());
+        $filteredPlayers    = $this->players->filterByNickname((string) $player->getNickname());
         $elementToBeRemoved = $filteredPlayers->first();
 
         $this->players->removeElement($elementToBeRemoved);
@@ -63,7 +63,7 @@ class PlayersInTheTeam implements ReadModelInterface, SerializableInterface
      */
     public static function deserialize(array $data): PlayersInTheTeam
     {
-        $playersInTheTeam = new self($data['teamId']);
+        $playersInTheTeam          = new self($data['teamId']);
         $playersInTheTeam->players = self::getPlayersDeserialized($data['players']);
 
         return $playersInTheTeam;
@@ -75,8 +75,8 @@ class PlayersInTheTeam implements ReadModelInterface, SerializableInterface
     public function serialize(): array
     {
         return [
-            'teamId' => $this->teamId,
-            'players' => $this->getPlayersSerialized()
+            'teamId'  => $this->teamId,
+            'players' => $this->getPlayersSerialized(),
         ];
     }
 

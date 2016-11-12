@@ -4,7 +4,6 @@ namespace Wbits\SoccerTeam\SoccerTeamBundle\Controller;
 
 use Broadway\ReadModel\RepositoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Wbits\SoccerTeam\Team\Event\PlayerJoinsTheTeam;
 
