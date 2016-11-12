@@ -11,10 +11,8 @@ class TeamWasCreatedSerializer
     public static function serialize(TeamWasCreated $event): array
     {
         return [
-            'team_id' => (string) $event->getTeamId(),
-            'club'    => $event->getInformation()->getClub(),
-            'team'    => $event->getInformation()->getTeam(),
-            'season'  => $event->getInformation()->getSeason(),
+            'team_id'   => (string) $event->getTeamId(),
+            'team_info' => TeamInformationSerializer::serialize($event->getInformation())
         ];
     }
 
@@ -22,11 +20,7 @@ class TeamWasCreatedSerializer
     {
         return new TeamWasCreated(
             new TeamId($data['team_id']),
-            new TeamInformation(
-                $data['club'],
-                $data['team'],
-                $data['season']
-            )
+            TeamInformationSerializer::deserialize($data['team_info'])
         );
     }
 }

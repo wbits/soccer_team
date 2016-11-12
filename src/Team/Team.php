@@ -4,9 +4,11 @@ namespace Wbits\SoccerTeam\Team;
 
 use Broadway\EventSourcing\EventSourcedAggregateRoot;
 use Doctrine\Common\Collections\ArrayCollection;
-use Wbits\SoccerTeam\Exception\ValidationException;
+use Wbits\SoccerTeam\SoccerTeamBundle\Exception\ValidationException;
 use Wbits\SoccerTeam\Team\Event\{MatchWasScheduled, PlayerJoinsTheTeam, PlayerLeavesTheTeam, TeamWasCreated};
-use Wbits\SoccerTeam\Team\Match\{Match, Opponent};
+use Wbits\SoccerTeam\Team\Match\{
+    Match, Opponent, Season
+};
 use Wbits\SoccerTeam\Team\Player\Player;
 use Wbits\SoccerTeam\Team\Player\PlayerCollection;
 
@@ -28,9 +30,9 @@ class Team extends EventSourcedAggregateRoot
     private $players;
 
     /**
-     * @var ArrayCollection|Match[]
+     * @var Season
      */
-    private $matches;
+    private $season;
 
     /**
      * @param TeamId $teamId
@@ -104,17 +106,13 @@ class Team extends EventSourcedAggregateRoot
     }
 
     /**
-     * @param int $matchId
-     * @param \DateTime $kickOff
-     * @param Opponent $opponent
+     * @param Match $match
      */
-    public function scheduleMatch(int $matchId, \DateTime $kickOff, Opponent $opponent)
+    public function scheduleMatch(Match $match)
     {
-        if ($this->matches && $this->matches->containsKey($matchId)) {
-            throw new \InvalidArgumentException(sprintf('A match with id: %s was already scheduled', $matchId));
-        }
+        $this->getSeason()->validateScheduledMatch($match);
 
-        $this->apply(new MatchWasScheduled($this->teamId, $matchId, $kickOff, $opponent));
+        $this->apply(new MatchWasScheduled($this->teamId, $match));
     }
 
     /**
@@ -122,14 +120,9 @@ class Team extends EventSourcedAggregateRoot
      */
     public function applyMatchWasScheduled(MatchWasScheduled $event)
     {
-        $this->matches = $this->matches ?? new ArrayCollection;
+        $match = $event->getMatch();
 
-        $this->matches->set(
-            $event->getMatchId(),
-            new Match($event->getMatchId(), $event->getOpponent(), $event->getKickOff())
-        );
-
-        $this->setUpcomingMatch();
+        $this->getSeason()->set($match->getMatchId(), $match);
     }
 
     /**
@@ -138,7 +131,7 @@ class Team extends EventSourcedAggregateRoot
     public function getChildEntities(): array
     {
         $players = $this->getPlayerCollection()->toArray();
-        $matches = $this->matches ? $this->matches->toArray(): [];
+        $matches = $this->getSeason()->toArray();
 
         return $players + $matches;
     }
@@ -148,59 +141,21 @@ class Team extends EventSourcedAggregateRoot
         return $this->teamId;
     }
 
+    /**
+     * @return PlayerCollection
+     */
     private function getPlayerCollection(): PlayerCollection
     {
         $this->players = $this->players ?? new PlayerCollection();
         return $this->players;
     }
 
-    private function setUpcomingMatch()
-    {
-        /** @var Match $match */
-        $match = $this->findUpComingMatch(new \DateTime());
-
-        if (is_null($match)) {
-            return;
-        }
-
-        $match->setUpcoming(true);
-    }
-
     /**
-     * @param \DateTime $now
-     *
-     * @return Match|null
+     * @return Season
      */
-    private function findUpComingMatch(\DateTime $now)
+    private function getSeason(): Season
     {
-        foreach ($this->matches as $match) {
-            $match->setUpcoming(false);
-        }
-
-        return array_reduce(
-            $this->matches->toArray(),
-            self::getUpcomingMatchCallback($now)
-        );
-    }
-
-    /**
-     * @param \DateTime $now
-     *
-     * @return \Closure
-     */
-    private static function getUpcomingMatchCallback(\DateTime $now): \Closure
-    {
-        return function ($previous, Match $current) use ($now) {
-
-            if ($current->getKickOff() < $now) { // game is done
-                return $previous;
-            }
-
-            if (! $previous instanceof Match) {
-                return $current;
-            }
-
-            return $current->getKickOff() < $previous->getKickOff() ? $current : $previous;
-        };
+        $this->season = $this->season ?? new Season();
+        return $this->season;
     }
 }

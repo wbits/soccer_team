@@ -59,12 +59,7 @@ class TeamCommandHandler extends CommandHandler
     public function handleScheduleMatch(ScheduleMatch $command)
     {
         $team = $this->loadTeam($command->getTeamId());
-
-        $team->scheduleMatch(
-            $command->getMatchId(),
-            $command->getKickOff(),
-            $command->getOpponent()
-        );
+        $team->scheduleMatch($command->getMatch());
 
         $this->repository->save($team);
     }

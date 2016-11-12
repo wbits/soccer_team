@@ -6,6 +6,10 @@ use Assert\Assertion as Assert;
 use Broadway\CommandHandling\CommandBusInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Wbits\SoccerTeam\Serializer\MatchSerializer;
+use Wbits\SoccerTeam\Serializer\PlayerSerializer;
+use Wbits\SoccerTeam\Serializer\TeamInformationSerializer;
+use Wbits\SoccerTeam\Team\Command\CreateNewTeam;
 use Wbits\SoccerTeam\Team\Command\ScheduleMatch;
 use Wbits\SoccerTeam\Team\Command\TeamCommandFactory;
 
@@ -36,9 +40,7 @@ class TeamController
 
         return new JsonResponse([
             'team_id' => (string) $command->getTeamId(),
-            'club'    => $command->getInformation()->getClub(),
-            'team'    => $command->getInformation()->getTeam(),
-            'season'  => $command->getInformation()->getSeason(),
+            'team_info' => TeamInformationSerializer::serialize($command->getInformation())
         ]);
     }
 
@@ -64,14 +66,12 @@ class TeamController
         return $this->playerAction($request, $teamId, 'createRemovePlayerCommand');
     }
 
-    public function appointTrainerAction()
-    {
-    }
-
-    public function fireTrainerAction()
-    {
-    }
-
+    /**
+     * @param Request $request
+     * @param string $teamId
+     *
+     * @return JsonResponse
+     */
     public function scheduleMatchAction(Request $request, string $teamId): JsonResponse
     {
         Assert::uuid($teamId);
@@ -80,10 +80,8 @@ class TeamController
         $command = $this->dispatchCommand('createScheduleMatchCommand', [$params, $teamId]);
 
         return new JsonResponse([
-            'team_id'  => (string) $command->getTeamId(),
-            'match_id' => $command->getMatchId(),
-            'kick_off' => $command->getKickOff()->format(DATE_ISO8601),
-            'opponent' => sprintf('%s-%s', $command->getOpponent()->getClub(), $command->getOpponent()->getTeam()),
+            'team_id' => (string) $command->getTeamId(),
+            'match'   => MatchSerializer::serialize($command->getMatch())
         ]);
     }
 
@@ -102,9 +100,8 @@ class TeamController
         $command = $this->dispatchCommand($commandFactoryMethod, [$params, $teamId]);
 
         return new JsonResponse([
-            'team_id'  => (string) $command->getTeamId(),
-            'nickname' => (string) $command->getPlayer()->getNickname(),
-            'email'    => (string) $command->getPlayer()->getEmail(),
+            'team_id' => (string) $command->getTeamId(),
+            'player'  => PlayerSerializer::serialize($command->getPlayer()),
         ]);
     }
 

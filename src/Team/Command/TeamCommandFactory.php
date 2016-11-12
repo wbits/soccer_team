@@ -2,15 +2,10 @@
 
 namespace Wbits\SoccerTeam\Team\Command;
 
-use Assert\Assertion as Assert;
 use Broadway\UuidGenerator\UuidGeneratorInterface;
+use Wbits\SoccerTeam\Serializer\MatchSerializer;
 use Wbits\SoccerTeam\Serializer\PlayerSerializer;
 use Wbits\SoccerTeam\Serializer\TeamInformationSerializer;
-use Wbits\SoccerTeam\Team\Player\Player;
-use Wbits\SoccerTeam\Team\Property\Address;
-use Wbits\SoccerTeam\Team\Match\Opponent;
-use Wbits\SoccerTeam\Team\Property\Email;
-use Wbits\SoccerTeam\Team\Property\Nickname;
 use Wbits\SoccerTeam\Team\TeamId;
 
 class TeamCommandFactory
@@ -79,27 +74,9 @@ class TeamCommandFactory
      */
     public function createScheduleMatchCommand(array $params, string $teamId): ScheduleMatch
     {
-        Assert::keyIsset($params, 'match_id');
-        Assert::keyIsset($params, 'kick_off');
-        Assert::keyIsset($params, 'club');
-        Assert::keyIsset($params, 'team');
-        Assert::keyIsset($params, 'street_name');
-        Assert::keyIsset($params, 'house_number');
-        Assert::keyIsset($params, 'postal_code');
-        Assert::keyIsset($params, 'city');
-
-        $address  = new Address(
-            $params['street_name'],
-            $params['house_number'],
-            $params['postal_code'],
-            $params['city']
-        );
-
         return new ScheduleMatch(
             new TeamId($teamId),
-            $params['match_id'],
-            new \DateTime($params['kick_off']),
-            new Opponent($params['club'], $params['team'], $address)
+            MatchSerializer::deserialize($params)
         );
     }
 }

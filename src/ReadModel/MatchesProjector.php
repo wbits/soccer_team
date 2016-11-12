@@ -19,14 +19,7 @@ class MatchesProjector extends Projector
     protected function applyMatchWasScheduled(MatchWasScheduled $event)
     {
         $readModel = $this->getReadModel((string) $event->getTeamId());
-
-        $match = new Match(
-            $event->getMatchId(),
-            $event->getOpponent(),
-            $event->getKickOff()
-        );
-
-        $readModel->addMatch($match);
+        $readModel->addMatch($event->getMatch());
 
         $this->repository->save($readModel);
     }

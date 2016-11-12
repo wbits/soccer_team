@@ -18,9 +18,8 @@ class PlayerLeavesTheTeamSerializer
     public static function serialize($event): array
     {
         return [
-            'team_id'  => (string) $event->getTeamId(),
-            'email'    => (string) $event->getPlayer()->getEmail(),
-            'nickname' => (string) $event->getPlayer()->getNickname(),
+            'team_id' => (string) $event->getTeamId(),
+            'player'  => PlayerSerializer::serialize($event->getPlayer()),
         ];
     }
 
@@ -33,10 +32,7 @@ class PlayerLeavesTheTeamSerializer
     {
         return new PlayerLeavesTheTeam(
             new TeamId($data['team_id']),
-            new Player(
-                new Email($data['email']),
-                new Nickname($data['nickname'])
-            )
+            PlayerSerializer::deserialize($data['player'])
         );
     }
 }
