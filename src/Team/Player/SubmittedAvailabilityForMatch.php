@@ -12,7 +12,7 @@ class SubmittedAvailabilityForMatch implements PlayerInterface
     private $available;
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isAvailable(): bool
     {
@@ -20,7 +20,7 @@ class SubmittedAvailabilityForMatch implements PlayerInterface
     }
 
     /**
-     * @param boolean $available
+     * @param bool $available
      *
      * @return SubmittedAvailabilityForMatch
      */

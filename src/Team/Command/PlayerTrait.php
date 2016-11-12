@@ -19,7 +19,7 @@ trait PlayerTrait
     private $player;
 
     /**
-     * @param TeamId $teamId
+     * @param TeamId          $teamId
      * @param PlayerInterface $player
      */
     public function __construct(TeamId $teamId, PlayerInterface $player)
