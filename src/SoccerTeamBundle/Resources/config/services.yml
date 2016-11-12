@@ -10,3 +10,8 @@ services:
   soccer_team.controller.matches:
     class: Wbits\SoccerTeam\SoccerTeamBundle\Controller\MatchesController
     arguments: ['@soccer_team.read_model.repository.matches']
+
+  app.exception_listener:
+    class: Wbits\SoccerTeam\SoccerTeamBundle\ExceptionListener
+    tags:
+        - { name: kernel.event_listener, event: kernel.exception }

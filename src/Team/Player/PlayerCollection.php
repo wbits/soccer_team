@@ -3,7 +3,7 @@
 namespace Wbits\SoccerTeam\Team\Player;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Wbits\SoccerTeam\Exception\ValidationException;
+use Wbits\SoccerTeam\SoccerTeamBundle\Exception\ValidationException;
 
 class PlayerCollection extends ArrayCollection
 {
@@ -15,15 +15,20 @@ class PlayerCollection extends ArrayCollection
      */
     public function validateNewPlayer(Player $player): bool
     {
+        $errors = [];
         $emailAddress = (string) $player->getEmail();
         $nickname     = (string) $player->getNickname();
 
         if ($this->containsKey($emailAddress)) {
-            throw new ValidationException(sprintf('email exists:', $emailAddress));
+            $errors['email'] = sprintf('The provided email address: %s is already in use', $emailAddress);
         }
 
         if ($this->filterByNickname($nickname)->count() > 0) {
-            throw new ValidationException(sprintf('name not unique: %s', $nickname));
+            $errors['nickname'] = sprintf('The nickname: %s is already taken', $nickname);
+        }
+
+        if (! empty ($errors)) {
+            throw (new ValidationException())->setErrors($errors);
         }
 
         return true;
