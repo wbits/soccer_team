@@ -22,22 +22,6 @@ class TeamCommandFactorySpec extends ObjectBehavior
         $this->beConstructedWith($generator);
     }
 
-    function it_should_validate_club_team_and_season()
-    {
-        $this->shouldThrow(AssertionFailedException::class)->during(
-            'createCreateNewTeamCommand',
-            [['team' => 'foo', 'season' => '1900-1901']]
-        );
-        $this->shouldThrow(AssertionFailedException::class)->during(
-            'createCreateNewTeamCommand',
-            [['club' => 'bar', 'season' => '1900-1901']]
-        );
-        $this->shouldThrow(AssertionFailedException::class)->during(
-            'createCreateNewTeamCommand',
-            [['team' => 'foo', 'club' => 'bar']]
-        );
-    }
-
     function it_should_create_a_create_new_team_command(UuidGeneratorInterface $generator)
     {
         $generator->generate()->willReturn(self::UUID);

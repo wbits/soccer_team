@@ -29,6 +29,13 @@ class PlayerCollection extends ArrayCollection
         return true;
     }
 
+    public function addPlayer(Player $player)
+    {
+        $email  = (string) $player->getEmail();
+
+        $this->set($email, $player);
+    }
+
     /**
      * @param string $nickname
      *
