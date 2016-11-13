@@ -140,5 +140,7 @@ class Match extends EventSourcedEntity
     public function addPlayerAvailable(PlayerInterface $player): Match
     {
         $this->playersAvailable[] = $player;
+
+        return $this;
     }
 }

@@ -90,6 +90,20 @@ class TeamController
         ]);
     }
 
+    public function submitAvailabilityForMatchAction(Request $request, string $teamId): JsonResponse
+    {
+        Assert::uuid($teamId);
+
+        $params  = $this->getRequestPayload($request->getContent());
+        $command = $this->dispatchCommand('createSubmitAvailabilityForMatchCommand', [$params, $teamId]);
+
+        return new JsonResponse([
+            'team_id'  => (string) $command->getTeamId(),
+            'player'   => PlayerSerializer::serialize($command->getPlayer()),
+            'match_id' => $command->getMatchId(),
+        ]);
+    }
+
     /**
      * @param Request $request
      * @param string  $teamId

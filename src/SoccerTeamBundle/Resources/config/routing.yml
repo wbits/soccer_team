@@ -22,6 +22,12 @@ schedule_match:
   defaults:
     _controller: soccer_team.controller.team:scheduleMatchAction
 
+player_submits_availability_for_match:
+  path: /team/{teamId}/submitAvailability
+  methods: [POST]
+  defaults:
+    _controller: soccer_team.controller.team:submitAvailabilityForMatchAction
+
 players_in_the_team:
   path: /team/{teamId}/players
   methods: [GET]

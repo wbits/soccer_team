@@ -79,4 +79,14 @@ class TeamCommandFactory
             MatchSerializer::deserialize($params)
         );
     }
+
+    public function createSubmitAvailabilityForMatchCommand(array $params, string $teamId): SubmitAvailabilityForMatch
+    {
+        $command = new SubmitAvailabilityForMatch(
+            new TeamId($teamId),
+            PlayerSerializer::deserialize($params['player'])
+        );
+
+        return $command->setMatchId($params['match_id']);
+    }
 }

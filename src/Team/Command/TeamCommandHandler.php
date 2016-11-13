@@ -65,6 +65,17 @@ class TeamCommandHandler extends CommandHandler
     }
 
     /**
+     * @param SubmitAvailabilityForMatch $command
+     */
+    public function handleSubmitAvailabilityForMatch(SubmitAvailabilityForMatch $command)
+    {
+        $team = $this->loadTeam($command->getTeamId());
+        $team->addPlayerWhoSubmitsAvailabilityForMatch($command->getPlayer(), $command->getMatchId());
+
+        $this->repository->save($team);
+    }
+
+    /**
      * @param TeamId $teamId
      *
      * @return Team
