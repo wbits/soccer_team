@@ -7,4 +7,5 @@ use Broadway\EventSourcing\EventSourcedEntity;
 class Player extends EventSourcedEntity implements PlayerInterface
 {
     use PlayerTrait;
+    use AvailableForMatchTrait;
 }

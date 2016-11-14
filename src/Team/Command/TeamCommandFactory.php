@@ -80,12 +80,18 @@ class TeamCommandFactory
         );
     }
 
+    /**
+     * @param array $params
+     * @param string $teamId
+     *
+     * @return SubmitAvailabilityForMatch
+     */
     public function createSubmitAvailabilityForMatchCommand(array $params, string $teamId): SubmitAvailabilityForMatch
     {
-        $command = new SubmitAvailabilityForMatch(
-            new TeamId($teamId),
-            PlayerSerializer::deserialize($params['player'])
-        );
+        $player = PlayerSerializer::deserialize($params['player']);
+        $player->setAvailable($params['available']);
+
+        $command = new SubmitAvailabilityForMatch(new TeamId($teamId), $player);
 
         return $command->setMatchId($params['match_id']);
     }

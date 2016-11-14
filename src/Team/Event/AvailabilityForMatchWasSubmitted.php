@@ -9,7 +9,7 @@ use Wbits\SoccerTeam\Team\Command\PlayerTrait;
 use Wbits\SoccerTeam\Team\Match\Match;
 use Wbits\SoccerTeam\Team\TeamId;
 
-class PlayerSubmitsAvailabilityForMatch implements SerializableInterface
+class AvailabilityForMatchWasSubmitted implements SerializableInterface
 {
     use PlayerTrait;
 
@@ -37,9 +37,9 @@ class PlayerSubmitsAvailabilityForMatch implements SerializableInterface
     /**
      * @param array $data
      *
-     * @return PlayerSubmitsAvailabilityForMatch
+     * @return AvailabilityForMatchWasSubmitted
      */
-    public static function deserialize(array $data): PlayerSubmitsAvailabilityForMatch
+    public static function deserialize(array $data): AvailabilityForMatchWasSubmitted
     {
         $event = new self(
             new TeamId($data['teamId']),

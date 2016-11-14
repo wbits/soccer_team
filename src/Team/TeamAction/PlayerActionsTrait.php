@@ -2,28 +2,27 @@
 
 namespace Wbits\SoccerTeam\Team\TeamAction;
 
-use Wbits\SoccerTeam\Team\Event\PlayerSubmitsAvailabilityForMatch;
-use Wbits\SoccerTeam\Team\Player\PlayerInterface;
-use Wbits\SoccerTeam\Team\Player\SubmittedAvailabilityForMatch;
+use Wbits\SoccerTeam\Team\Event\AvailabilityForMatchWasSubmitted;
+use Wbits\SoccerTeam\Team\Player\Player;
 
 trait PlayerActionsTrait
 {
     /**
-     * @param PlayerInterface | SubmittedAvailabilityForMatch $player
+     * @param Player $player
      * @param string $matchId
      */
-    public function addPlayerWhoSubmitsAvailabilityForMatch(PlayerInterface $player, string $matchId)
+    public function submitAvailabilityForMatch(Player $player, string $matchId)
     {
         $match = $this->getSeason()->findMatch($matchId);
-        $event = new PlayerSubmitsAvailabilityForMatch($this->teamId, $player);
+        $event = new AvailabilityForMatchWasSubmitted($this->teamId, $player);
         $event->setMatch($match);
 
         $this->apply($event);
     }
 
-    public function applyPlayerSubmitsAvailabilityForMatch(PlayerSubmitsAvailabilityForMatch $event)
+    public function applyAvailabilityForMatchWasSubmitted(AvailabilityForMatchWasSubmitted $event)
     {
         $match = $event->getMatch();
-        $match->addPlayerAvailable($event->getPlayer());
+        $match->addPlayerWhoSubmittedAvailabilityForMatch($event->getPlayer());
     }
 }

@@ -2,10 +2,8 @@
 
 namespace Wbits\SoccerTeam\Team\Player;
 
-class SubmittedAvailabilityForMatch implements PlayerInterface
+trait AvailableForMatchTrait
 {
-    use PlayerTrait;
-
     /**
      * @var bool
      */
@@ -22,9 +20,9 @@ class SubmittedAvailabilityForMatch implements PlayerInterface
     /**
      * @param bool $available
      *
-     * @return SubmittedAvailabilityForMatch
+     * @return $this
      */
-    public function setAvailable(bool $available): SubmittedAvailabilityForMatch
+    public function setAvailable(bool $available)
     {
         $this->available = $available;
 

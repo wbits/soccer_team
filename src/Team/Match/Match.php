@@ -3,9 +3,8 @@
 namespace Wbits\SoccerTeam\Team\Match;
 
 use Broadway\EventSourcing\EventSourcedEntity;
+use Wbits\SoccerTeam\Team\Player\Player;
 use Wbits\SoccerTeam\Team\Player\PlayerCollection;
-use Wbits\SoccerTeam\Team\Player\PlayerInterface;
-use Wbits\SoccerTeam\Team\Player\SubmittedAvailabilityForMatch;
 
 class Match extends EventSourcedEntity
 {
@@ -27,12 +26,7 @@ class Match extends EventSourcedEntity
     /**
      * @var PlayerCollection
      */
-    private $playersAvailable;
-
-    /**
-     * @var PlayerCollection
-     */
-    private $playersUnavailableConfirmed;
+    private $playersWhoSubmittedAvailabilityForMatch;
 
     /**
      * @var Result
@@ -123,23 +117,23 @@ class Match extends EventSourcedEntity
     /**
      * @return PlayerCollection
      */
-    public function getPlayersAvailable(): PlayerCollection
+    public function getPlayersWhoSubmittedAvailabilityForMatch(): PlayerCollection
     {
-        if (is_null($this->playersAvailable)) {
-            $this->playersAvailable = new PlayerCollection();
+        if (is_null($this->playersWhoSubmittedAvailabilityForMatch)) {
+            $this->playersWhoSubmittedAvailabilityForMatch = new PlayerCollection();
         }
 
-        return $this->playersAvailable;
+        return $this->playersWhoSubmittedAvailabilityForMatch;
     }
 
     /**
-     * @param PlayerInterface | SubmittedAvailabilityForMatch $player
+     * @param Player $player
      *
      * @return Match
      */
-    public function addPlayerAvailable(PlayerInterface $player): Match
+    public function addPlayerWhoSubmittedAvailabilityForMatch(Player $player): Match
     {
-        $this->playersAvailable[] = $player;
+        $this->playersWhoSubmittedAvailabilityForMatch[] = $player;
 
         return $this;
     }
