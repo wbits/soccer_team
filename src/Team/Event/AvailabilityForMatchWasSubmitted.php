@@ -41,9 +41,12 @@ class AvailabilityForMatchWasSubmitted implements SerializableInterface
      */
     public static function deserialize(array $data): AvailabilityForMatchWasSubmitted
     {
+        $player = PlayerSerializer::deserialize($data['player']);
+        $player->setAvailable($data['available'] ?? false);
+
         $event = new self(
             new TeamId($data['teamId']),
-            PlayerSerializer::deserialize($data['player'])
+            $player
         );
 
         $event->setMatch(MatchSerializer::deserialize($data['match']));
@@ -57,9 +60,10 @@ class AvailabilityForMatchWasSubmitted implements SerializableInterface
     public function serialize(): array
     {
         return [
-            'teamId' => (string) $this->getTeamId(),
-            'player' => PlayerSerializer::serialize($this->getPlayer()),
-            'match'  => MatchSerializer::serialize($this->getMatch()),
+            'teamId'    => (string) $this->getTeamId(),
+            'player'    => PlayerSerializer::serialize($this->getPlayer()),
+            'available' => $this->getPlayer()->isAvailable(),
+            'match'     => MatchSerializer::serialize($this->getMatch()),
         ];
     }
 }

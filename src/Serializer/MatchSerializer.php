@@ -11,9 +11,6 @@ class MatchSerializer
 {
     public static function serialize(Match $match): array
     {
-        $opponent = $match->getOpponent();
-        $address  = $opponent->getAddress();
-
         $result           = $match->getResult();
         $serializedResult = [
             'score'  => '',
@@ -28,43 +25,62 @@ class MatchSerializer
         return [
             'match_id' => $match->getMatchId(),
             'kickoff'  => $match->getKickoff()->format(DATE_ISO8601),
-            'opponent' => [
-                'club'    => $opponent->getClub(),
-                'team'    => $opponent->getTeam(),
-                'address' => [
-                    'street'       => $address->getStreetName(),
-                    'house_number' => $address->getHouseNumber(),
-                    'postal_code'  => $address->getPostalCode(),
-                    'city'         => $address->getCity(),
-                ],
-            ],
+            'opponent' => self::serializeOpponent($match->getOpponent()),
             'result'   => $serializedResult,
             'upcoming' => $match->isUpcoming(),
+        ];
+    }
+
+    public static function serializeOpponent(Opponent $opponent): array
+    {
+        return [
+            'club'    => $opponent->getClub(),
+            'team'    => $opponent->getTeam(),
+            'address' => self::serializeAddress($opponent->getAddress()),
+        ];
+    }
+
+    public static function serializeAddress(Address $address): array
+    {
+        return [
+            'street'       => $address->getStreetName(),
+            'house_number' => $address->getHouseNumber(),
+            'postal_code'  => $address->getPostalCode(),
+            'city'         => $address->getCity(),
         ];
     }
 
     public static function deserialize(array $properties): Match
     {
         self::validateMatchProperties($properties);
-        self::validateOpponent($properties['opponent']);
-        self::validateAddress($properties['opponent']['address']);
-
-        $address = new Address(
-            $properties['opponent']['address']['street'],
-            $properties['opponent']['address']['house_number'],
-            $properties['opponent']['address']['postal_code'],
-            $properties['opponent']['address']['city']
-        );
-        $opponent = new Opponent(
-            $properties['opponent']['club'],
-            $properties['opponent']['team'],
-            $address
-        );
 
         return new Match(
             $properties['match_id'],
-            $opponent,
+            self::deserializeOpponent($properties['opponent']),
             new \DateTime($properties['kickoff'])
+        );
+    }
+
+    public static function deserializeOpponent(array $properties): Opponent
+    {
+        self::validateOpponent($properties);
+
+        return new Opponent(
+            $properties['club'],
+            $properties['team'],
+            self::deserializeAddress($properties['address'])
+        );
+    }
+
+    public static function deserializeAddress(array $properties): Address
+    {
+        self::validateAddress($properties);
+
+        return new Address(
+            $properties['street'],
+            $properties['house_number'],
+            $properties['postal_code'],
+            $properties['city']
         );
     }
 

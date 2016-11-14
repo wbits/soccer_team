@@ -9,7 +9,7 @@ services:
 
   soccer_team.controller.matches:
     class: Wbits\SoccerTeam\SoccerTeamBundle\Controller\MatchesController
-    arguments: ['@soccer_team.read_model.repository.matches']
+    arguments: ['@soccer_team.read_model.repository.matches', '@soccer_team.read_model.repository.match_details']
 
   app.exception_listener:
     class: Wbits\SoccerTeam\SoccerTeamBundle\ExceptionListener

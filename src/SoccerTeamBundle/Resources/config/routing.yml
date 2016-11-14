@@ -39,3 +39,9 @@ matches:
   methods: [GET]
   defaults:
     _controller: soccer_team.controller.matches:showMatchesAction
+
+match_details:
+  path: /match/{matchId}
+  methods: [GET]
+  defaults:
+    _controller: soccer_team.controller.matches:showMatchDetailsAction
