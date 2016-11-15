@@ -4,7 +4,7 @@ namespace Wbits\SoccerTeam\SoccerTeamBundle\Controller;
 
 use Broadway\ReadModel\RepositoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Wbits\SoccerTeam\ReadModel\MatchDetails;
 use Wbits\SoccerTeam\ReadModel\Matches;
 
@@ -25,7 +25,7 @@ class MatchesController
         $readModel = $this->matchesRepository->find($teamId);
 
         if (null === $readModel) {
-            return new Response('', Response::HTTP_NOT_FOUND);
+            throw new NotFoundHttpException('Your query did not produce any results');
         }
 
         return new JsonResponse($readModel->serialize());
@@ -37,7 +37,7 @@ class MatchesController
         $matchDetails = $this->matchDetailsRepository->find($matchId);
 
         if (null === $matchDetails) {
-            return new Response('', Response::HTTP_NOT_FOUND);
+            throw new NotFoundHttpException('Your query did not produce any results');
         }
 
         return new JsonResponse($matchDetails->serialize());
